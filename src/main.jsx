@@ -145,15 +145,32 @@ function App() {
         </section>
 
         <section className="federal">
-          <div className="federal-marquee" aria-hidden="true">80+ РЕГИОНОВ · ОДНА СЕТЬ · 80+ РЕГИОНОВ · ОДНА СЕТЬ ·</div>
           <div className="federal-content">
-            <div className="federal-title" role="heading" aria-level="2">Ваши связи не ограничиваются областью</div>
-            <p>В любом регионе — свои люди. Находите партнёров, поставщиков и экспертов не через холодный поиск, а через доверенную деловую сеть.</p>
+            <div className="federal-title" role="heading" aria-level="2">Вся страна — на расстоянии <em>одного контакта</em></div>
+            <p>Псковское отделение — часть федеральной сети «ОПОРЫ РОССИИ». Находите партнёров, поставщиков и экспертов через доверенное предпринимательское сообщество.</p>
             <div className="federal-stats">
-              <div><b>80+</b><span>регионов сети</span></div>
               <div><b>1 шаг</b><span>до нужного контакта</span></div>
               <div><b>0</b><span>лишних посредников</span></div>
             </div>
+            <a className="button button--white" href="#join">Войти в сеть <Arrow /></a>
+          </div>
+          <div className="federal-visual" aria-hidden="true">
+            <div className="federal-number"><b>80+</b><span>регионов<br />в одной сети</span></div>
+            <svg className="network-lines" viewBox="0 0 600 600" fill="none">
+              <path d="M78 416L181 303L293 369L386 224L528 128" />
+              <path d="M181 303L233 153L386 224L468 414L293 369L142 502" />
+              <path d="M233 153L347 82L528 128" />
+              <circle cx="78" cy="416" r="7" />
+              <circle cx="181" cy="303" r="7" />
+              <circle cx="293" cy="369" r="7" />
+              <circle cx="386" cy="224" r="7" />
+              <circle cx="528" cy="128" r="7" />
+              <circle cx="233" cy="153" r="7" />
+              <circle cx="347" cy="82" r="7" />
+              <circle cx="468" cy="414" r="7" />
+              <circle cx="142" cy="502" r="7" />
+            </svg>
+            <span className="network-pulse" />
           </div>
         </section>
 

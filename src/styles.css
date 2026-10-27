@@ -99,16 +99,28 @@ em { color: var(--red); font-style: italic; }
 .card-title { font-family: var(--font-display); font-size: 1.7rem; font-weight: 700; text-transform: uppercase; }
 .benefit-card p { color: var(--muted); font-size: .87rem; line-height: 1.65; }
 
-.federal { position: relative; overflow: hidden; min-height: 42rem; padding: var(--section-space) max(1.5rem, calc((100vw - 82rem) / 2)); color: var(--white); background: var(--red); }
-.federal::after { content: ""; position: absolute; width: 40rem; aspect-ratio: 1; right: -8rem; top: -4rem; border: 1px solid rgb(255 255 255 / .3); border-radius: 50%; box-shadow: 0 0 0 6rem rgb(255 255 255 / .04), 0 0 0 12rem rgb(255 255 255 / .04); }
-.federal-marquee { position: absolute; bottom: -1.5rem; left: -2rem; white-space: nowrap; color: rgb(255 255 255 / .08); font-family: var(--font-display); font-size: 9rem; font-weight: 700; line-height: 1; }
-.federal-content { position: relative; z-index: 2; max-width: 56rem; }
-.federal-title { max-width: 12ch; font-size: clamp(3.4rem, 7vw, 7rem); line-height: .87; }
-.federal-content > p:not(.kicker) { max-width: 40rem; margin: 2rem 0; line-height: 1.7; }
-.federal-stats { display: flex; gap: 4rem; margin-top: 4rem; }
+.federal { position: relative; display: grid; min-height: 46rem; overflow: hidden; color: var(--white); background: var(--navy-deep); grid-template-columns: minmax(0, 1.15fr) minmax(24rem, .85fr); }
+.federal::before { content: ""; position: absolute; inset: 0 42% 0 0; opacity: .12; background-image: linear-gradient(rgb(146 200 255 / .28) 1px, transparent 1px), linear-gradient(90deg, rgb(146 200 255 / .28) 1px, transparent 1px); background-size: 5rem 5rem; mask-image: linear-gradient(90deg, black, transparent); }
+.federal-content { position: relative; z-index: 2; display: flex; flex-direction: column; justify-content: center; padding: var(--section-space) clamp(2rem, 6vw, 7rem) var(--section-space) max(1.5rem, calc((100vw - 82rem) / 2)); }
+.federal-title { max-width: 10ch; font-size: clamp(3.4rem, 6.3vw, 6.7rem); line-height: .87; }
+.federal-title em { color: var(--sky); text-shadow: none; }
+.federal-content > p { max-width: 38rem; margin: 2.3rem 0 0; color: #aec5dd; line-height: 1.75; }
+.federal-stats { display: flex; gap: 4rem; margin-top: 3.2rem; }
 .federal-stats div { display: flex; flex-direction: column; }
 .federal-stats b { font-family: var(--font-display); font-size: 2rem; }
 .federal-stats span { font-size: .72rem; opacity: .72; }
+.federal-content > .button { width: 13rem; margin-top: 2.8rem; }
+.federal-visual { position: relative; display: grid; overflow: hidden; place-items: center; background: var(--red); isolation: isolate; }
+.federal-visual::before { content: ""; position: absolute; width: 36rem; aspect-ratio: 1; border: 1px solid rgb(255 255 255 / .24); border-radius: 50%; box-shadow: 0 0 0 5rem rgb(255 255 255 / .045), 0 0 0 10rem rgb(255 255 255 / .045); }
+.federal-visual::after { content: ""; position: absolute; inset: 0; z-index: -1; opacity: .12; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 160 160' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+.federal-number { position: relative; z-index: 3; display: flex; align-items: end; gap: 1.1rem; transform: translateY(1rem); }
+.federal-number b { font-family: var(--font-display); font-size: clamp(7rem, 13vw, 12rem); letter-spacing: -.09em; line-height: .7; }
+.federal-number span { padding-bottom: .25rem; font-family: var(--font-display); font-size: .85rem; font-weight: 700; line-height: 1.1; text-transform: uppercase; }
+.network-lines { position: absolute; inset: 5%; width: 90%; height: 90%; opacity: .48; }
+.network-lines path { stroke: var(--white); stroke-width: 1.25; }
+.network-lines circle { fill: var(--red); stroke: var(--white); stroke-width: 2; }
+.network-pulse { position: absolute; width: .8rem; aspect-ratio: 1; left: 29%; top: 50%; border-radius: 50%; background: var(--white); box-shadow: 0 0 0 0 rgb(255 255 255 / .55); animation: network-pulse 2.4s ease-out infinite; }
+@keyframes network-pulse { 70%, 100% { box-shadow: 0 0 0 2.5rem rgb(255 255 255 / 0); } }
 
 .event-layout { display: grid; gap: 3rem; grid-template-columns: .8fr 1.2fr; }
 .event-photo { position: relative; min-height: 38rem; margin: 0; overflow: hidden; }
@@ -189,7 +201,9 @@ em { color: var(--red); font-style: italic; }
   .metrics { grid-template-columns: repeat(2, 1fr); }
   .metrics > div:nth-child(2) { border-right: 0; }
   .benefit-grid { grid-template-columns: repeat(2, 1fr); }
-  .event-layout, .faq, .join { grid-template-columns: 1fr; }
+  .federal, .event-layout, .faq, .join { grid-template-columns: 1fr; }
+  .federal-content { min-height: 38rem; padding-inline: max(1rem, calc((100vw - 52rem) / 2)); }
+  .federal-visual { min-height: 32rem; }
   .event-photo { min-height: 28rem; }
   .structure-panel { grid-template-columns: 1fr 1fr; }
   .story-grid { grid-template-columns: 1fr; }
@@ -221,8 +235,13 @@ em { color: var(--red); font-style: italic; }
   .section-title { font-size: 3.5rem; }
   .benefit-grid { grid-template-columns: 1fr; }
   .benefit-card { min-height: 19rem; }
-  .federal-stats { gap: 1.5rem; }
+  .federal-content { min-height: 39rem; padding: 5rem 1rem; }
+  .federal-title { font-size: clamp(3.2rem, 15vw, 5rem); }
+  .federal-stats { gap: 2.5rem; }
   .federal-stats b { font-size: 1.5rem; }
+  .federal-visual { min-height: 27rem; }
+  .federal-number { align-items: center; flex-direction: column; gap: 1rem; text-align: center; }
+  .federal-number b { font-size: 8rem; }
   .event-layout { gap: 1.5rem; }
   .event-photo { min-height: 21rem; }
   .event-card { grid-template-columns: 3.5rem 1fr; }
