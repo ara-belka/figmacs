@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { createRoot } from "react-dom/client";
 import oporaWordmarkWhite from "./assets/opora-wordmark-white.svg";
 import chairmanPhoto from "./assets/sergey-pakreev.webp";
@@ -53,6 +53,23 @@ function App() {
   const [activeStructure, setActiveStructure] = useState("bureau");
   const [openFaq, setOpenFaq] = useState(0);
   const [sent, setSent] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  useEffect(() => {
+    if (!menuOpen) return undefined;
+
+    const closeOnEscape = (event) => {
+      if (event.key === "Escape") setMenuOpen(false);
+    };
+
+    document.body.classList.add("menu-open");
+    window.addEventListener("keydown", closeOnEscape);
+
+    return () => {
+      document.body.classList.remove("menu-open");
+      window.removeEventListener("keydown", closeOnEscape);
+    };
+  }, [menuOpen]);
 
   const submit = (event) => {
     event.preventDefault();
@@ -66,16 +83,22 @@ function App() {
         <a className="logo" href="#top" aria-label="ОПОРА Псков — на главную">
           <FigmaLogotype />
         </a>
-        <nav className="nav" aria-label="Основная навигация">
-          <a href="#structure">Об организации</a>
-          <a href="#events">Новости</a>
-          <a href="#events">Мероприятия</a>
-          <a href="#structure">Защита бизнеса</a>
-          <a href="#join">Обратиться в Бюро</a>
-          <a href="#contacts">Контакты</a>
+        <nav className={`nav ${menuOpen ? "nav--open" : ""}`} id="header-navigation" aria-label="Основная навигация">
+          <a href="#structure" onClick={() => setMenuOpen(false)}>Об организации</a>
+          <a href="#events" onClick={() => setMenuOpen(false)}>Новости</a>
+          <a href="#events" onClick={() => setMenuOpen(false)}>Мероприятия</a>
+          <a href="#structure" onClick={() => setMenuOpen(false)}>Защита бизнеса</a>
+          <a href="#join" onClick={() => setMenuOpen(false)}>Обратиться в Бюро</a>
+          <a href="#contacts" onClick={() => setMenuOpen(false)}>Контакты</a>
+          <a className="nav-join" href="#join" onClick={() => setMenuOpen(false)}>Вступить</a>
         </nav>
+        <button className={`menu-toggle ${menuOpen ? "menu-toggle--open" : ""}`} type="button" aria-label={menuOpen ? "Закрыть меню" : "Открыть меню"} aria-expanded={menuOpen} aria-controls="header-navigation" onClick={() => setMenuOpen(!menuOpen)}>
+          <span />
+          <span />
+        </button>
         <a className="button button--small" href="#join">Вступить</a>
       </header>
+      <button className={`menu-backdrop ${menuOpen ? "menu-backdrop--visible" : ""}`} type="button" aria-label="Закрыть меню" tabIndex={menuOpen ? 0 : -1} onClick={() => setMenuOpen(false)} />
 
       <main id="top">
         <section className="hero">
