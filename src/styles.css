@@ -195,8 +195,9 @@ em { color: var(--red); font-style: italic; }
 .faq-answer p { max-width: 40rem; margin: 0 0 1.8rem; color: var(--muted); line-height: 1.7; }
 .faq-item.open .faq-answer { max-height: 12rem; }
 
-.join { display: grid; width: 100%; gap: 6rem; padding-inline: max(1.5rem, calc((100vw - 82rem) / 2)); color: var(--white); background: linear-gradient(135deg, var(--blue), #00509c); grid-template-columns: .9fr 1.1fr; }
+.join { display: grid; width: 100%; gap: 6rem; padding-inline: max(1.5rem, calc((100vw - 82rem) / 2)); color: var(--white); background: linear-gradient(135deg, var(--navy-deep), var(--navy) 58%, #003b78); grid-template-columns: .9fr 1.1fr; }
 .join-title { font-size: clamp(3.5rem, 6vw, 6.5rem); line-height: .86; }
+.join-title em { color: var(--sky); }
 .join-copy > p:not(.kicker) { max-width: 28rem; margin-top: 2rem; color: #c6e4ff; line-height: 1.7; }
 .join-form { align-self: start; padding: clamp(1.5rem, 4vw, 3rem); color: var(--ink); background: var(--white); box-shadow: 0 2rem 5rem rgb(0 19 47 / .25); }
 .form-title { margin-bottom: 2rem; font-family: var(--font-display); font-size: 2rem; font-weight: 700; text-transform: uppercase; }
