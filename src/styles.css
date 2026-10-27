@@ -47,14 +47,10 @@ button { color: inherit; }
 @keyframes progress { from { transform: scaleX(0); } to { transform: scaleX(1); } }
 
 .header { position: absolute; z-index: 10; top: 0; left: 0; width: 100%; min-height: 4.75rem; display: flex; align-items: center; gap: 1.5rem; padding: .4rem max(1.5rem, calc((100vw - 82rem) / 2)); color: #034e89; background: #f6fbff; box-shadow: 0 .35rem 1.5rem rgb(0 31 91 / .08); }
-.logo { display: flex; align-items: center; gap: .8rem; font-family: var(--font-display); line-height: 1.05; }
-.logo-mark { display: block; width: 3.2rem; height: 2.8rem; object-fit: contain; }
-.logo-copy { display: flex; flex-direction: column; gap: .18rem; }
-.logo strong { color: var(--white); font-size: .8rem; letter-spacing: .055em; }
-.logo b { color: var(--sky); font-size: .58rem; font-weight: 600; letter-spacing: .035em; text-transform: uppercase; }
-.header .logo { flex: 0 0 auto; }
-.header .logo strong { color: #003873; }
-.header .logo b { color: #0078bc; }
+.logo { display: block; flex: 0 0 auto; }
+.figma-logotype { position: relative; display: block; width: clamp(10.625rem, 18vw, 16.75rem); aspect-ratio: 170.09544372558594 / 30.595355987548828; overflow: hidden; }
+.figma-logotype-layer { position: absolute; display: block; }
+.figma-logotype-layer img { position: absolute; inset: 0; display: block; max-width: none; width: 100%; height: 100%; }
 .nav { display: flex; flex: 1; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: .35rem 1.25rem; font-family: "Open Sans:SemiBold", var(--font-body); font-size: 1.125rem; font-weight: 600; line-height: 1.625rem; font-variation-settings: "wdth" 100; }
 .nav a { white-space: nowrap; opacity: 1; transition: color .2s ease; }
 .nav a:hover { color: var(--red); }
@@ -222,7 +218,6 @@ em { color: var(--red); font-style: italic; }
 @media (max-width: 900px) {
   :root { --page: min(100% - 2rem, 82rem); }
   .header { flex-wrap: wrap; gap: .35rem 1rem; padding: .5rem 1rem; }
-  .header .logo-copy { display: none; }
   .nav { display: flex; order: 3; flex-basis: 100%; flex-wrap: nowrap; justify-content: flex-start; gap: 1.2rem; overflow-x: auto; padding: .25rem 0 .55rem; font-size: .86rem; line-height: 1.25rem; scrollbar-width: none; }
   .nav::-webkit-scrollbar { display: none; }
   .hero { min-height: 54rem; align-content: center; }
