@@ -68,12 +68,14 @@ function App() {
           <span className="logo-copy"><strong>ОПОРА РОССИИ</strong><b>Псковское отделение</b></span>
         </a>
         <nav className="nav" aria-label="Основная навигация">
-          <a href="#events">События</a>
-          <a href="#benefits">Предпринимателям</a>
           <a href="#structure">Об организации</a>
+          <a href="#events">Новости</a>
+          <a href="#events">Мероприятия</a>
+          <a href="#structure">Защита бизнеса</a>
+          <a href="#join">Обратиться в Бюро</a>
           <a href="#contacts">Контакты</a>
         </nav>
-        <a className="button button--small" href="#join">Вступить <Arrow /></a>
+        <a className="button button--small" href="#join">Вступить</a>
       </header>
 
       <main id="top">
