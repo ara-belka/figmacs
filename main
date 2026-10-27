@@ -1,0 +1,861 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Псковское отделение «ОПОРЫ РОССИИ» — концепт B (scrollytelling-витрина + robust fallback)</title>
+<meta name="description" content="Псковское региональное отделение «ОПОРЫ РОССИИ»: место силы для предпринимателей области. Сообщество, экспертиза, влияние, защита бизнеса и партнёрства.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Roboto+Condensed:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap" rel="stylesheet">
+<style>
+  /* ===== ТОКЕНЫ · брендбук ОПОРА РОССИИ (п.1.2 / 1.4) ===== */
+  :root{
+    --white:#FFFFFF; --blue:#0072CE; --navy:#00205B; --red:#E4002B; --sky:#92C8FF;
+    --blue-80:#338dd9; --blue-60:#66a8e2; --blue-40:#99c6ea; --blue-20:#cce2f5;
+    --navy-80:#334d7c; --navy-60:#46536e; --navy-40:#99a5bd; --navy-20:#ccd2e0;
+    --red-80:#e93355; --red-20:#f9ccd4;
+    --tint:#f3f8fd; --line:#d3dbe6; --line-strong:#b9c6da;
+    --deep:linear-gradient(155deg,#00122f 0%,var(--navy) 48%,#013a86 100%);
+    --deep-2:linear-gradient(150deg,var(--navy) 0%,#014a9e 62%,var(--blue) 130%);
+    --edge:3px;
+    --cut:polygon(0 0,100% 0,100% calc(100% - 22px),calc(100% - 22px) 100%,0 100%);
+    --fd:"Roboto Condensed","Arial Narrow",system-ui,sans-serif;
+    --ft:"Open Sans",system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+    --max:1360px; --pad:clamp(20px,3.4vw,56px);
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--white);color:var(--navy);font-family:var(--ft);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;overflow-x:hidden}
+  ::selection{background:var(--red);color:#fff}
+  a{color:inherit} img,svg{display:block;max-width:100%}
+  .container{width:min(var(--max),100% - calc(var(--pad)*2));margin-inline:auto;position:relative}
+  .section{padding:clamp(56px,6vw,92px) 0;position:relative}
+  .section--tint{background:var(--tint)}
+  .section--deep{background:var(--deep);color:#fff}
+  /* зерно ТОЛЬКО в тёмных зонах */
+  .grain-in{position:absolute;inset:0;pointer-events:none;opacity:.05;mix-blend-mode:overlay;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+  .kicker{margin:0 0 12px;font-family:var(--fd);font-weight:700;font-size:12px;line-height:1.2;letter-spacing:.2em;text-transform:uppercase;color:var(--blue)}
+  .kicker--on-dark{color:var(--sky)}
+  h1,h2,h3,h4{margin:0;font-family:var(--fd);font-weight:700;color:var(--navy)}
+  .section--deep h2,.section--deep h3{color:#fff}
+  h2{font-size:clamp(34px,5vw,68px);line-height:.98;letter-spacing:-.025em}
+  h3{font-size:clamp(22px,2.4vw,32px);line-height:1.06;letter-spacing:-.015em}
+  .display{font-family:var(--fd);font-weight:700;font-size:clamp(40px,6.4vw,92px);line-height:.92;letter-spacing:-.03em;margin:14px 0 20px;text-wrap:balance}
+  .lead{font-family:var(--ft);font-weight:400;font-size:clamp(17px,1.55vw,21px);line-height:1.6;color:var(--navy-60);max-width:60ch;margin:0 0 24px}
+  .section--deep .lead{color:var(--sky)}
+  .accent-word{color:var(--red);position:relative}
+  .accent-word::after{content:"";position:absolute;left:0;right:0;bottom:.05em;height:.06em;background:var(--red);opacity:.25}
+
+  .btn{display:inline-flex;align-items:center;justify-content:center;min-height:54px;padding:0 30px;border:1px solid var(--navy);background:var(--navy);color:#fff;font-family:var(--fd);font-weight:700;font-size:15px;letter-spacing:.02em;text-decoration:none;border-radius:var(--edge);cursor:pointer;position:relative;overflow:hidden;transition:color .3s ease,border-color .3s ease}
+  .btn::after{content:"";position:absolute;inset:0;background:var(--red);transform:translateY(101%);transition:transform .4s cubic-bezier(.16,1,.3,1);z-index:-1}
+  .btn:hover{border-color:var(--red);color:#fff}
+  .btn:hover::after{transform:none}
+  .btn>*{position:relative;z-index:1}
+  .btn-ghost{background:transparent;color:var(--navy);border-color:var(--line-strong)}
+  .btn-ghost::after{background:var(--navy)}
+  .btn-ghost:hover{color:#fff;border-color:var(--navy)}
+  .btn-red{background:var(--red);border-color:var(--red);color:#fff}
+  .btn-red::after{background:#fff}
+  .btn-red:hover{color:var(--red);border-color:#fff}
+  .btn-on-dark{background:#fff;color:var(--navy);border-color:#fff}
+  .btn-on-dark::after{background:var(--red)}
+  .btn-on-dark:hover{color:#fff;border-color:var(--red)}
+  .btn-ghost-dark{background:transparent;color:#fff;border-color:rgba(146,200,255,.4)}
+  .btn-ghost-dark::after{background:rgba(146,200,255,.16)}
+  .btn-ghost-dark:hover{border-color:var(--sky)}
+  .btn-small{min-height:44px;padding:0 20px;font-size:14px}
+
+  /* topbar + прогресс */
+  .topbar{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.86);backdrop-filter:saturate(150%) blur(10px);border-bottom:1px solid var(--line)}
+  .topbar-inner{min-height:72px;display:flex;align-items:center;justify-content:space-between;gap:24px}
+  .progress{position:absolute;left:0;bottom:-1px;height:2px;width:0;background:var(--red);z-index:2}
+  .logo{font-family:var(--fd);font-weight:700;font-size:20px;letter-spacing:.02em;text-decoration:none;white-space:nowrap;color:var(--navy)}
+  .logo b{color:var(--red)}
+  .nav{display:flex;align-items:center;gap:30px}
+  .nav a{font-family:var(--fd);font-weight:400;color:var(--navy-60);text-decoration:none;font-size:14px;letter-spacing:.04em;transition:color .2s ease}
+  .nav a:hover{color:var(--navy)}
+
+  .wm{position:absolute;top:clamp(40px,6vw,80px);right:calc(var(--pad) * -0.2);font-family:var(--fd);font-weight:700;font-size:clamp(120px,18vw,260px);line-height:.8;color:var(--navy);opacity:.05;pointer-events:none;z-index:0;letter-spacing:-.04em}
+  .vlabel{position:absolute;left:calc(var(--pad) * -0.55);top:50%;transform:translateY(-50%) rotate(180deg);writing-mode:vertical-rl;font-family:var(--fd);font-weight:700;font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--navy-40);pointer-events:none}
+  .section--deep .vlabel{color:var(--sky)}
+  .container>*{position:relative;z-index:1}
+
+  /* ===== SCROLLYTELLING-СЦЕНА (B-витрина). Вся механика — только под html.js ===== */
+  .scrolly{position:relative;background:var(--deep);color:#fff;overflow:clip}
+  .scrolly .stage{display:grid;place-items:center;padding:clamp(40px,8vw,80px) var(--pad) 0;z-index:0}
+  .scrolly .prose{position:relative;z-index:2;padding:clamp(28px,5vw,56px) 0}
+  .step{padding:0 var(--pad);display:flex}
+  .step .card{max-width:46ch;width:100%}
+  /* без js: карточки столпов идут компактным списком, граф статичен сверху */
+  html.js .scrolly .stage{position:sticky;top:0;height:100vh;padding:0}
+  html.js .scrolly .prose{margin-top:-100vh;padding:0}
+  html.js .step{min-height:92vh;align-items:center}
+  html.js .step:nth-child(odd) .card{margin-right:auto}
+  html.js .step:nth-child(even) .card{margin-left:auto}
+  html.js .step:not(:first-child):not(:last-child) .card{background:rgba(0,18,47,.74);border:1px solid rgba(146,200,255,.28);border-left:3px solid var(--red);border-radius:var(--edge);padding:clamp(22px,2.6vw,34px)}
+  .card .num{font-family:var(--fd);font-weight:700;font-size:13px;letter-spacing:.18em;color:var(--sky);display:block;margin-bottom:8px}
+  .card h3{color:#fff;font-size:clamp(24px,2.8vw,38px);line-height:1.04;letter-spacing:-.02em;margin:0 0 12px}
+  .card p{margin:0;color:var(--sky);font-size:clamp(15px,1.4vw,18px);line-height:1.6}
+  .card .cta-row{display:flex;flex-wrap:wrap;gap:12px;margin-top:18px}
+  /* герой-шаг и финал — без «плашки», текст свободно */
+  .step--hero .card,.step--finale .card{max-width:60ch}
+  .step--hero{align-items:flex-end}
+  html.js .step--hero{padding-bottom:clamp(48px,8vh,96px)}
+  .step--hero .kicker{color:var(--sky)}
+  .step--hero .display{color:#fff}
+  .step--hero .lead{color:rgba(204,226,245,.92)}
+  html:not(.js) .step--hero{padding-top:clamp(20px,4vw,40px)}
+
+  /* граф */
+  .graph{width:min(72vh,560px);height:auto;overflow:visible;margin-inline:auto}
+  html.js .graph{position:sticky;top:0}
+  .g-edge{stroke:rgba(146,200,255,.18);stroke-width:1.25;fill:none;opacity:1;transition:opacity .6s ease,stroke .4s ease,stroke-width .4s ease}
+  .g-node{fill:rgba(0,18,47,.55);stroke:var(--sky);stroke-width:1.5;opacity:1;transform:none;transition:opacity .6s cubic-bezier(.16,1,.3,1),transform .6s cubic-bezier(.16,1,.3,1),fill .4s ease,stroke .4s ease}
+  .g-center{fill:var(--red);stroke:var(--red)}
+  .g-pulse{fill:none;stroke:var(--red);stroke-width:1.5;opacity:.5;transform-box:fill-box;transform-origin:center;animation:pulse 3s ease-out infinite}
+  .g-cap{font-family:var(--fd);font-weight:700;font-size:14px;fill:#fff;text-anchor:middle;letter-spacing:.04em;opacity:1}
+  .g-sub{font-family:var(--fd);font-weight:400;font-size:12px;fill:var(--sky);text-anchor:middle;letter-spacing:.1em;text-transform:uppercase;opacity:1;transition:opacity .6s ease,fill .3s ease}
+  .g-sub.hot{fill:#fff}
+  /* гейт: без js всё видно; с js — скрыто до зажигания шагом */
+  html.js .g-edge{opacity:0}
+  html.js .g-edge.on{opacity:1}
+  html.js .g-edge.hot{stroke:var(--red);stroke-width:2;opacity:1}
+  html.js .g-node{opacity:0;transform:scale(.3);transform-box:fill-box;transform-origin:center}
+  html.js .g-node.on{opacity:1;transform:scale(1)}
+  html.js .g-node.g-center{opacity:1;transform:none}
+  html.js .g-node.hot{fill:var(--red);stroke:#fff}
+  html.js .g-cap,html.js .g-sub{opacity:0}
+  html.js .g-cap.on,html.js .g-sub.on{opacity:1}
+  .scrolly.full .g-edge.on{animation:flow 2.6s linear infinite}
+  .scroll-hint{display:none}
+  html.js .scroll-hint{display:flex;position:absolute;left:50%;bottom:20px;transform:translateX(-50%);z-index:3;flex-direction:column;align-items:center;gap:8px;font-family:var(--fd);font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--sky);opacity:.8;animation:bob 2.4s ease-in-out infinite}
+  .scroll-hint i{width:1px;height:30px;background:linear-gradient(var(--sky),transparent)}
+
+  /* stats */
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .stat{padding:26px 20px 26px 0;border-right:1px solid var(--line)}
+  .stat:last-child{border-right:0;padding-right:0}
+  .stat-num{display:block;font-family:var(--fd);font-weight:700;font-size:clamp(40px,4.8vw,68px);line-height:1;letter-spacing:-.03em;margin-bottom:8px;color:var(--navy)}
+  .stat-num i{font-style:normal;color:var(--red)}
+  .stat-label{display:block;font-family:var(--fd);font-weight:400;font-size:12px;line-height:1.35;letter-spacing:.1em;text-transform:uppercase;color:var(--navy-60)}
+
+  /* address */
+  .address-grid{display:grid;grid-template-columns:minmax(260px,4fr) 8fr;gap:clamp(28px,4vw,56px);align-items:start}
+  .address-photo{position:sticky;top:96px;aspect-ratio:4/5;border:1px solid var(--line);clip-path:var(--cut);overflow:hidden;display:grid;place-items:center;background:var(--deep-2)}
+  .photo-mark{font-family:var(--fd);font-weight:700;font-size:clamp(64px,9vw,120px);color:rgba(255,255,255,.92);line-height:1;letter-spacing:.02em}
+  .photo-cap{position:absolute;left:0;right:0;bottom:0;padding:14px 18px;font-family:var(--fd);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--sky);background:linear-gradient(to top,rgba(0,18,47,.9),transparent)}
+  .address-content blockquote{margin:0}
+  .address-content blockquote p{font-family:var(--ft);font-weight:300;font-style:italic;font-size:clamp(26px,3.6vw,48px);line-height:1.18;letter-spacing:-.015em;margin:0 0 30px;color:var(--navy)}
+  .signature{display:grid;gap:4px;margin-bottom:22px}
+  .signature strong{font-family:var(--fd);font-weight:700;font-size:18px;color:var(--navy)}
+  .signature span{font-family:var(--fd);font-weight:400;color:var(--navy-60);font-size:13px;text-transform:uppercase;letter-spacing:.1em}
+
+  .section-head{display:grid;grid-template-columns:1fr auto;align-items:end;gap:32px;margin-bottom:34px}
+  .section-note{max-width:38ch;margin:0;color:var(--navy-60);line-height:1.6}
+  .section--deep .section-note{color:var(--sky)}
+
+  /* польза = мозаика (чистая, без нервов — сеть живёт только в сцене) */
+  .mosaic{display:grid;grid-template-columns:repeat(12,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--edge);overflow:hidden}
+  .tile{background:#fff;padding:clamp(20px,2.2vw,32px);min-height:200px;display:flex;flex-direction:column;justify-content:space-between;gap:18px;position:relative;transition:background .35s ease}
+  .tile::before{content:"";position:absolute;left:0;top:0;height:2px;width:0;background:var(--red);transition:width .45s cubic-bezier(.16,1,.3,1)}
+  .tile:hover{background:var(--tint)}
+  .tile:hover::before{width:100%}
+  .tile:hover .tile-num{color:var(--red);transform:translateY(-2px)}
+  .tile-top{display:flex;justify-content:space-between;gap:12px;align-items:baseline}
+  .tile-num{font-family:var(--fd);font-weight:700;font-size:30px;color:var(--blue-40);transition:color .3s ease,transform .3s ease;letter-spacing:-.02em}
+  .tile h3{margin:0 0 8px}
+  .tile p{margin:0;color:var(--navy-60);line-height:1.6;max-width:52ch}
+  .span-7{grid-column:span 7}.span-5{grid-column:span 5}.span-4{grid-column:span 4}.span-12{grid-column:span 12}
+  .tile-cta{background:var(--navy);color:#fff;grid-template-columns:1fr auto;align-items:center;display:grid;min-height:auto;gap:32px}
+  .tile-cta:hover{background:var(--navy)}
+  .tile-cta::before{display:none}
+  .tile-cta h3,.tile-cta .tile-num{color:#fff}
+  .tile-cta p{color:var(--sky)}
+  .cta-copy{display:grid;gap:12px}
+
+  /* федерация */
+  .federal-grid{display:grid;grid-template-columns:5fr 7fr;gap:clamp(28px,4vw,56px);align-items:start}
+  .federal-left{position:sticky;top:96px}
+  .federal-left p{color:var(--sky);max-width:48ch}
+  .chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:24px}
+  .chip{border:1px solid rgba(146,200,255,.32);background:transparent;color:#fff;font-family:var(--fd);font-weight:400;font-size:14px;letter-spacing:.02em;padding:13px 20px;border-radius:var(--edge);cursor:pointer;transition:background .25s ease,border-color .25s ease,color .25s ease}
+  .chip:hover{border-color:var(--sky)}
+  .chip.active{background:var(--red);border-color:var(--red);color:#fff;font-weight:700}
+  .federal-result{border-top:1px solid rgba(146,200,255,.25);padding-top:26px;min-height:190px}
+  .federal-result h3{font-size:clamp(28px,4vw,48px);line-height:1.04;letter-spacing:-.025em;margin:0 0 16px}
+  .federal-result p{margin:0;color:var(--sky);max-width:60ch;font-size:18px;line-height:1.6}
+  .federal-metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(146,200,255,.25);border:1px solid rgba(146,200,255,.25);border-radius:var(--edge);overflow:hidden;margin-top:30px}
+  .federal-metrics>div{background:transparent;padding:20px}
+  .federal-metrics strong{display:block;font-family:var(--fd);font-weight:700;font-size:clamp(30px,3.6vw,48px);line-height:1;margin-bottom:10px;color:#fff;letter-spacing:-.02em}
+  .federal-metrics span{display:block;font-family:var(--fd);font-weight:400;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--sky)}
+
+  /* controls + tracks */
+  .controls{display:flex;gap:10px}
+  .icon-btn{width:52px;height:52px;border:1px solid var(--line-strong);background:transparent;color:var(--navy);cursor:pointer;display:grid;place-items:center;font-family:var(--fd);font-size:20px;border-radius:var(--edge);transition:background .25s ease,color .25s ease,border-color .25s ease}
+  .icon-btn:hover{background:var(--navy);border-color:var(--navy);color:#fff}
+  .event-track,.face-track{display:flex;gap:1px;overflow-x:auto;scroll-snap-type:x mandatory;background:var(--line);border:1px solid var(--line);border-radius:var(--edge);scrollbar-width:thin;scrollbar-color:var(--line-strong) transparent}
+  .event-track::-webkit-scrollbar,.face-track::-webkit-scrollbar{height:8px}
+  .event-track::-webkit-scrollbar-thumb,.face-track::-webkit-scrollbar-thumb{background:var(--line-strong)}
+  .event{flex:0 0 min(420px,82vw);background:#fff;padding:clamp(22px,2.4vw,32px);scroll-snap-align:start;display:flex;flex-direction:column;gap:12px;min-height:280px;position:relative;transition:background .3s ease}
+  .event::before{content:"";position:absolute;left:0;top:0;width:3px;height:0;background:var(--red);transition:height .4s cubic-bezier(.16,1,.3,1)}
+  .event:hover{background:var(--tint)}
+  .event:hover::before{height:100%}
+  .event time{font-family:var(--fd);font-weight:700;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--red)}
+  .event p{margin:0;color:var(--navy-60);line-height:1.6;flex:1}
+  .event-link{display:inline-flex;align-items:center;gap:10px;color:var(--navy);text-decoration:none;font-family:var(--fd);font-weight:700}
+  .event-link span{transition:transform .25s ease,color .25s ease}
+  .event:hover .event-link span{transform:translateX(5px);color:var(--red)}
+
+  /* структура: табы + скользящий индикатор */
+  .tabs{display:flex;flex-wrap:wrap;gap:clamp(20px,3vw,42px);border-bottom:1px solid var(--line);margin-bottom:34px;position:relative}
+  .tab{appearance:none;border:0;background:none;padding:0 0 18px;font-family:var(--fd);font-weight:700;font-size:16px;color:var(--navy-60);cursor:pointer;transition:color .25s ease}
+  .tab:hover{color:var(--navy)}
+  .tab.active{color:var(--navy)}
+  .tab-ind{position:absolute;left:0;bottom:-1px;height:2px;width:0;background:var(--red);transition:left .4s cubic-bezier(.16,1,.3,1),width .4s cubic-bezier(.16,1,.3,1)}
+  .panel{display:none}
+  .panel.active{display:block;animation:fadeUp .5s cubic-bezier(.16,1,.3,1)}
+  .data-list{display:grid;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--edge);overflow:hidden}
+  .data-row{background:#fff;padding:clamp(22px,2.5vw,32px);display:grid;grid-template-columns:minmax(180px,1fr) 2fr;gap:clamp(18px,3vw,40px);align-items:start;transition:background .25s ease}
+  .data-row:hover{background:var(--tint)}
+  .data-row strong{font-family:var(--fd);font-weight:700;font-size:17px;color:var(--navy)}
+  .data-row span{color:var(--navy-60);line-height:1.6}
+
+  /* лица */
+  .face-track{gap:24px;background:transparent;border:0;padding-bottom:10px;scroll-snap-type:x proximity}
+  .face{flex:0 0 min(560px,88vw);background:#fff;border:1px solid var(--line);border-left:3px solid var(--red);border-radius:var(--edge);padding:clamp(22px,2.6vw,34px);scroll-snap-align:start;display:grid;grid-template-columns:84px 1fr;gap:20px;transition:transform .35s cubic-bezier(.16,1,.3,1),box-shadow .35s ease}
+  .face:hover{transform:translateY(-4px);box-shadow:0 18px 40px rgba(0,32,91,.10)}
+  .avatar{width:84px;height:106px;border-radius:var(--edge);background:var(--deep-2);display:grid;place-items:center;font-family:var(--fd);font-weight:700;font-size:27px;color:#fff}
+  .face blockquote{margin:0}
+  .face blockquote p{font-family:var(--ft);font-weight:400;font-size:clamp(19px,2vw,25px);line-height:1.4;margin:0 0 12px;color:var(--navy)}
+  .face cite{font-style:normal;font-family:var(--fd);font-weight:400;color:var(--navy-60);font-size:12px;letter-spacing:.1em;text-transform:uppercase}
+
+  /* партнёры */
+  .partner-wall{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--edge);overflow:hidden}
+  .partner{background:#fff;min-height:108px;padding:22px 16px;display:grid;place-items:center;text-align:center;color:var(--navy-60);font-family:var(--fd);font-weight:400;line-height:1.3;position:relative;transition:background .25s ease,color .25s ease}
+  .partner::after{content:"";position:absolute;left:0;right:0;bottom:0;height:2px;background:var(--blue);transform:scaleX(0);transform-origin:left;transition:transform .35s cubic-bezier(.16,1,.3,1)}
+  .partner:hover{background:var(--tint);color:var(--navy)}
+  .partner:hover::after{transform:scaleX(1)}
+  .partner-cta{display:grid;grid-template-columns:1fr auto;align-items:center;gap:32px;background:var(--navy);color:#fff;padding:clamp(24px,2.8vw,36px);border-radius:var(--edge);margin-top:24px;clip-path:var(--cut)}
+  .partner-cta h3{color:#fff;margin:0 0 8px}
+  .partner-cta p{margin:0;color:var(--sky);max-width:60ch}
+
+  /* лояльность */
+  .offers{display:grid;grid-template-columns:repeat(12,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--edge);overflow:hidden}
+  .offer{grid-column:span 4;background:#fff;padding:clamp(20px,2.2vw,30px);display:flex;flex-direction:column;gap:12px;min-height:184px;position:relative;transition:background .25s ease}
+  .offer::before{content:"";position:absolute;left:0;top:0;width:100%;height:2px;background:var(--red);transform:scaleX(0);transform-origin:left;transition:transform .4s cubic-bezier(.16,1,.3,1)}
+  .offer:hover{background:var(--tint)}
+  .offer:hover::before{transform:scaleX(1)}
+  .offer-meta{display:block;font-family:var(--fd);font-weight:400;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--navy-60);margin:-4px 0 2px}
+  .offer p{margin:0;color:var(--navy-60);line-height:1.55;flex:1}
+  .offer a{color:var(--navy);font-family:var(--fd);font-weight:700;text-decoration:none;border-bottom:1px solid transparent;width:max-content;transition:border-color .2s ease,color .2s ease}
+  .offer a:hover{border-bottom-color:var(--red);color:var(--red)}
+
+  /* faq */
+  .faq-list{border-top:1px solid var(--line)}
+  .faq-item{border-bottom:1px solid var(--line)}
+  .faq-item summary{list-style:none;cursor:pointer;padding:clamp(18px,2.2vw,28px) 0;display:flex;justify-content:space-between;align-items:flex-start;gap:28px;font-family:var(--ft);font-weight:700;font-size:clamp(18px,2vw,26px);line-height:1.3;color:var(--navy);transition:color .2s ease}
+  .faq-item summary:hover{color:var(--blue)}
+  .faq-item summary::-webkit-details-marker{display:none}
+  .faq-icon{flex:0 0 auto;width:36px;height:36px;border:1px solid var(--line-strong);display:grid;place-items:center;transition:transform .35s cubic-bezier(.16,1,.3,1),background .3s ease,color .3s ease,border-color .3s ease;font-family:var(--fd);font-size:22px;line-height:1;color:var(--navy)}
+  .faq-item[open] .faq-icon{transform:rotate(135deg);background:var(--red);color:#fff;border-color:var(--red)}
+  .faq-body{padding:0 0 clamp(20px,2.4vw,30px);color:var(--navy-60);line-height:1.65;max-width:80ch}
+  .faq-body p{margin:0 0 12px}
+  .faq-body p:last-child{margin-bottom:0}
+  .faq-body .src{font-family:var(--fd);font-size:13px;letter-spacing:.04em;color:var(--blue)}
+
+  /* вступление */
+  .join-grid{display:grid;grid-template-columns:5fr 7fr;gap:clamp(28px,4vw,56px);align-items:start}
+  .checklist{list-style:none;margin:26px 0 0;padding:0;display:grid;gap:14px}
+  .checklist li{padding-left:28px;position:relative;color:var(--navy-60);line-height:1.6}
+  .checklist li::before{content:"";position:absolute;left:0;top:.62em;width:16px;height:2px;background:var(--red)}
+  .checklist li strong{color:var(--navy);font-family:var(--fd);font-weight:700}
+  .join-form{background:#fff;border:1px solid var(--line);border-top:3px solid var(--blue);border-radius:var(--edge);padding:clamp(24px,3vw,42px);clip-path:var(--cut);box-shadow:0 24px 60px rgba(0,32,91,.08)}
+  .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px 24px}
+  .field-full{grid-column:1/-1}
+  .field label{display:block;font-family:var(--fd);font-weight:700;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--navy-60);margin-bottom:8px}
+  .field input,.field select,.field textarea{width:100%;border:0;border-bottom:1px solid var(--line-strong);background:transparent;padding:13px 0;font-family:var(--ft);font-size:16px;color:var(--navy);border-radius:0;outline:none;transition:border-color .25s ease}
+  .field textarea{min-height:112px;resize:vertical}
+  .field input:focus,.field select:focus,.field textarea:focus{border-bottom-color:var(--red)}
+  .consent{grid-column:1/-1;display:flex;gap:14px;align-items:flex-start;color:var(--navy-60);font-size:14px;line-height:1.5}
+  .consent input{width:18px;height:18px;margin-top:2px;accent-color:var(--red);flex:0 0 auto}
+  .form-note{grid-column:1/-1;font-size:13px;color:var(--navy-60);line-height:1.55}
+  .form-note strong{color:var(--navy)}
+  .success{display:none;margin-top:24px;padding:18px 22px;background:var(--tint);border-left:3px solid var(--red);color:var(--navy);font-family:var(--fd);font-weight:700;border-radius:var(--edge)}
+  .success.show{display:block;animation:fadeUp .4s ease}
+
+  /* footer */
+  .footer{padding:56px 0 32px;border-top:1px solid rgba(146,200,255,.18);background:var(--navy);color:#fff;position:relative;overflow:hidden}
+  .footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1.4fr;gap:40px;position:relative;z-index:1}
+  .footer h4{margin:0 0 18px;font-family:var(--fd);font-weight:700;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--sky)}
+  .footer p,.footer a,.footer span{color:#fff;text-decoration:none;line-height:1.6}
+  .footer .logo{color:#fff}
+  .footer a:hover{color:var(--red)}
+  .footer-links{display:grid;gap:10px}
+  .smallprint{margin-top:34px;padding-top:20px;border-top:1px solid rgba(146,200,255,.18);color:var(--sky);font-size:13px;line-height:1.55;position:relative;z-index:1}
+
+  .mobile-bar{display:none}
+
+  /* reveal / mask / line-mask — базово ВИДНО; скрытие только под html.js */
+  .reveal.is-visible{}
+  html.js .reveal{opacity:0;transform:translateY(26px);transition:opacity .9s cubic-bezier(.16,1,.3,1),transform .9s cubic-bezier(.16,1,.3,1)}
+  html.js .reveal.is-visible{opacity:1;transform:none}
+  .mask{display:block;overflow:hidden}
+  .mask>span{display:block}
+  html.js .mask>span{transform:translateY(105%);transition:transform 1s cubic-bezier(.16,1,.3,1)}
+  html.js .is-in .mask>span{transform:none}
+  html.js .is-in .mask:nth-child(2)>span{transition-delay:.08s}
+  html.js .is-in .mask:nth-child(3)>span{transition-delay:.16s}
+
+  @keyframes pulse{0%{transform:scale(1);opacity:.5}70%{transform:scale(3.2);opacity:0}100%{opacity:0}}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+  @keyframes flow{to{stroke-dashoffset:-24}}
+  @keyframes bob{0%,100%{transform:translate(-50%,0)}50%{transform:translate(-50%,8px)}}
+  :focus-visible{outline:2px solid var(--red);outline-offset:3px}
+
+  @media (max-width:1080px){
+    .hero-grid,.address-grid,.federal-grid,.join-grid{grid-template-columns:1fr}
+    .address-photo,.federal-left{position:static}
+    .stats{grid-template-columns:repeat(2,1fr)}
+    .stat{border-bottom:1px solid var(--line)}
+    .stat:nth-child(2n){border-right:0;padding-right:0}
+    .stat:nth-last-child(-n+2){border-bottom:0}
+    .span-7,.span-5,.span-4,.span-12,.offer{grid-column:span 12}
+    .tile-cta,.partner-cta{grid-template-columns:1fr}
+    .footer-grid{grid-template-columns:1fr 1fr}
+    .vlabel{display:none}
+    .wm{font-size:clamp(90px,22vw,160px);right:0}
+    .graph{width:min(70vw,460px)}
+  }
+  @media (max-width:760px){
+    .nav{display:none}
+    body{padding-bottom:64px}
+    .mobile-bar{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:60;align-items:center;gap:6px;padding:8px 12px;background:rgba(255,255,255,.96);backdrop-filter:blur(8px);border-top:1px solid var(--line)}
+    .mobile-bar a{flex:1;text-align:center;font-family:var(--fd);font-weight:700;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--navy-60);text-decoration:none;padding:8px 2px;border-radius:var(--edge);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .mobile-bar a:active{background:var(--tint);color:var(--navy)}
+    .mobile-bar .mb-cta{flex:0 0 auto;background:var(--navy);color:#fff;padding:9px 14px}
+    .mobile-bar .mb-cta:active{background:var(--red)}
+    .section-head{grid-template-columns:1fr}
+    .data-row{grid-template-columns:1fr}
+    .face{grid-template-columns:1fr}
+    .avatar{width:72px;height:90px;font-size:26px}
+    .form-grid{grid-template-columns:1fr}
+    .federal-metrics{grid-template-columns:1fr}
+    .footer-grid{grid-template-columns:1fr}
+    .wm{display:none}
+    .graph{width:min(82vw,420px)}
+  }
+  /* RM: принудительно снимаем js-гейт-эффекты, даже если класс уже стоит */
+  @media (prefers-reduced-motion:reduce){
+    *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
+    html.js .reveal{opacity:1;transform:none}
+    html.js .mask>span{transform:none}
+    html.js .g-edge{opacity:1}
+    html.js .g-node{opacity:1;transform:none}
+    html.js .g-cap,html.js .g-sub{opacity:1}
+    html.js .scrolly .stage{position:static;height:auto;padding:clamp(40px,8vw,80px) var(--pad) 0}
+    html.js .scrolly .prose{margin-top:0;padding:clamp(28px,5vw,56px) 0}
+    html.js .step{min-height:auto;align-items:flex-start}
+    html.js .step:nth-child(even) .card,html.js .step:nth-child(odd) .card{margin:0}
+    .scroll-hint{display:none!important}
+  }
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="container topbar-inner">
+    <a class="logo" href="#top">ОПОРА<b>·</b>Псков</a>
+    <nav class="nav" aria-label="Основная навигация">
+      <a href="#benefits">Польза</a>
+      <a href="#events">Мероприятия</a>
+      <a href="#structure">Структура</a>
+      <a href="#partners">Партнёры</a>
+      <a href="#faq">Вопросы</a>
+    </nav>
+    <a class="btn btn-small" href="#join"><span>Вступить</span></a>
+  </div>
+  <div class="progress" id="progress" aria-hidden="true"></div>
+</header>
+
+<main id="top">
+  <!-- ===== B-витрина: рост сети по трём столпам + финал. Fallback без js/RM/мобила = статичный граф + 3 столпа списком ===== -->
+  <section class="scrolly" id="scrolly" aria-label="Что даёт членство — сеть связей, растущая вокруг вашего бизнеса">
+    <div class="grain-in" aria-hidden="true"></div>
+
+    <div class="stage">
+      <svg class="graph" id="graph" viewBox="0 0 760 760" role="img" aria-label="Граф: узел ОПОРА Псков в центре; по мере чтения достраиваются три столпа — Сообщество, Экспертиза, Влияние — и замыкающий узел «Вы»">
+        <g id="edges">
+          <path class="g-edge" data-f="c" data-t="comm" d="M380 380 L380 150"/>
+          <path class="g-edge" data-f="c" data-t="exp"  d="M380 380 L600 520"/>
+          <path class="g-edge" data-f="c" data-t="pow"  d="M380 380 L160 520"/>
+          <path class="g-edge" data-f="comm" data-t="exp" d="M380 150 L600 520"/>
+          <path class="g-edge" data-f="exp" data-t="pow"  d="M600 520 L160 520"/>
+          <path class="g-edge" data-f="pow" data-t="comm" d="M160 520 L380 150"/>
+          <path class="g-edge" data-f="you" data-t="comm" d="M380 650 L380 150"/>
+          <path class="g-edge" data-f="you" data-t="exp"  d="M380 650 L600 520"/>
+          <path class="g-edge" data-f="you" data-t="pow"  d="M380 650 L160 520"/>
+          <path class="g-edge" data-f="c" data-t="you"    d="M380 380 L380 650"/>
+        </g>
+        <g id="nodes">
+          <circle class="g-node" data-id="comm" cx="380" cy="150" r="10"/>
+          <circle class="g-node" data-id="exp"  cx="600" cy="520" r="10"/>
+          <circle class="g-node" data-id="pow"  cx="160" cy="520" r="10"/>
+          <circle class="g-node" data-id="you"  cx="380" cy="650" r="11"/>
+          <circle class="g-node g-center" data-id="c" cx="380" cy="380" r="14"/>
+          <circle class="g-pulse" cx="380" cy="380" r="14"/>
+        </g>
+        <g id="caps">
+          <text class="g-cap" x="380" y="356">ОПОРА</text>
+          <text class="g-sub" x="380" y="400" data-id="c">Псков</text>
+          <text class="g-sub" x="380" y="128" data-id="comm">Сообщество</text>
+          <text class="g-sub" x="636" y="524" data-id="exp">Экспертиза</text>
+          <text class="g-sub" x="124" y="524" data-id="pow">Влияние</text>
+          <text class="g-sub" x="380" y="682" data-id="you">Вы</text>
+        </g>
+      </svg>
+    </div>
+
+    <div class="prose" id="prose">
+      <div class="step step--hero" data-step="0">
+        <div class="card reveal">
+          <p class="kicker">Псковское региональное отделение «ОПОРЫ РОССИИ»</p>
+          <h1 class="display" data-mask>
+            <span class="mask"><span>Место силы для</span></span>
+            <span class="mask"><span>предпринимателей</span></span>
+            <span class="mask"><span><i class="accent-word" style="font-style:normal">области</i>.</span></span>
+          </h1>
+          <p class="lead">Вместе развиваемся и отстаиваем интересы бизнеса. Читайте дальше — увидите, как вокруг вашего дела выстраивается сеть из трёх опор.</p>
+          <div class="cta-row">
+            <a class="btn btn-on-dark" href="#join"><span>Стать членом сообщества</span></a>
+            <a class="btn btn-ghost-dark" href="#contacts"><span>Задать вопрос</span></a>
+          </div>
+        </div>
+      </div>
+
+      <div class="step" data-step="1"><div class="card reveal"><span class="num">01 · Опора</span><h3>Сообщество</h3><p>Формируем предпринимательскую культуру через окружение, нетворкинг и партнёрства. Вы входите не в организацию, а в рабочую среду своих.</p></div></div>
+      <div class="step" data-step="2"><div class="card reveal"><span class="num">02 · Опора</span><h3>Экспертиза</h3><p>Отраслевые комитеты, мастер‑классы, встречи и форумы с практиками, которые уже решили похожую задачу. Знание, доступное по одному шагу.</p></div></div>
+      <div class="step" data-step="3"><div class="card reveal"><span class="num">03 · Опора</span><h3>Влияние</h3><p>Диалог с властью и возможность влиять на то, каким будет наш регион, город, бизнес завтра. Ваш голос — через общественные советы и рабочие группы.</p></div></div>
+
+      <div class="step step--finale" data-step="4">
+        <div class="card reveal">
+          <span class="num">Замкните сеть</span>
+          <h3>Ваш бизнес — в центре переплетения</h3>
+          <p>Три опоры соединяются в одну точку — в вас. Вступите, и сеть начинает работать на ваше дело: контакты, защита, рост и голос.</p>
+          <div class="cta-row">
+            <a class="btn btn-red" href="#join"><span>Вступить в отделение</span></a>
+            <a class="btn btn-ghost-dark" href="#benefits"><span>Смотреть пользу детально</span></a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="scroll-hint" aria-hidden="true"><span>Скролльте</span><i></i></div>
+  </section>
+
+  <!-- proof -->
+  <div class="container" style="padding-block:clamp(40px,5vw,64px)">
+    <div class="stats reveal">
+      <div class="stat"><span class="stat-num" data-count="340" data-suffix="+">0</span><span class="stat-label">предпринимателей в орбите отделения</span></div>
+      <div class="stat"><span class="stat-num" data-count="12" data-suffix="">0</span><span class="stat-label">отраслевых направлений и комитетов</span></div>
+      <div class="stat"><span class="stat-num" data-count="50" data-suffix="+">0</span><span class="stat-label">деловых событий в год</span></div>
+      <div class="stat"><span class="stat-num" data-count="20" data-suffix="+">0</span><span class="stat-label">партнёров и институтов развития</span></div>
+    </div>
+  </div>
+
+  <!-- обращение -->
+  <section class="section section--tint">
+    <span class="wm" aria-hidden="true">01</span>
+    <span class="vlabel" aria-hidden="true">Обращение</span>
+    <div class="container address-grid">
+      <div class="address-photo reveal" aria-hidden="true">
+        <span class="photo-mark">ОП</span>
+        <span class="photo-cap">Фото председателя · заменить</span>
+      </div>
+      <div class="address-content reveal" data-reveal-delay="120">
+        <p class="kicker">Обращение председателя</p>
+        <blockquote><p>«Мы не продаём членство. Мы собираем вокруг стола людей, которым важно, чтобы в Псковской области бизнесу было проще работать, расти и быть услышанным».</p></blockquote>
+        <div class="signature"><strong>Председатель Псковского регионального отделения</strong><span>«ОПОРА РОССИИ» · ФИО заменить</span></div>
+        <a class="btn btn-ghost" href="#join"><span>Обсудить участие</span></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- польза = мозаика-перечень (всегда, независимо от сцены) -->
+  <section id="benefits" class="section">
+    <span class="wm" aria-hidden="true">02</span>
+    <span class="vlabel" aria-hidden="true">Польза</span>
+    <div class="container">
+      <div class="section-head reveal">
+        <div><h2 data-mask><span class="mask"><span>Не список привилегий,</span></span><span class="mask"><span>а рабочая среда</span></span></h2></div>
+        <p class="section-note">Три опоры из истории выше раскладываются на конкретные результаты: контакт, защиту, клиента, решение, доступ к людям и возможностям.</p>
+      </div>
+      <div class="mosaic">
+        <article class="tile span-7 reveal">
+          <div class="tile-top"><span class="tile-num">01</span></div>
+          <div><h3>Нужные контакты</h3><p>Не биржа визиток, а рабочая база: предприниматели, эксперты, партнёры, представители институтов и люди, которые могут помочь решить задачу.</p></div>
+        </article>
+        <article class="tile span-5 reveal" data-reveal-delay="80">
+          <div class="tile-top"><span class="tile-num">02</span></div>
+          <div><h3>Поддержка в сложных ситуациях</h3><p>Практический опыт сообщества, первичная консультация Бюро и помощь в поиске решения при давлениях, проверках и спорных решениях.</p></div>
+        </article>
+        <article class="tile span-4 reveal">
+          <div class="tile-top"><span class="tile-num">03</span></div>
+          <div><h3>Новые возможности</h3><p>Совместные проекты, новые клиенты, развитие компетенций и выход на партнёров за пределами одной отрасли.</p></div>
+        </article>
+        <article class="tile span-4 reveal" data-reveal-delay="80">
+          <div class="tile-top"><span class="tile-num">04</span></div>
+          <div><h3>Репутация</h3><p>Участие в профессиональном сообществе и общественных инициативах — сигнал надёжности для партнёров, клиентов и институтов.</p></div>
+        </article>
+        <article class="tile span-4 reveal" data-reveal-delay="160">
+          <div class="tile-top"><span class="tile-num">05</span></div>
+          <div><h3>Быть услышанным</h3><p>Участие в формировании предложений по развитию предпринимательства и диалог с властью через общественные советы и рабочие группы.</p></div>
+        </article>
+        <article class="tile tile-cta span-12 reveal">
+          <div class="cta-copy">
+            <div class="tile-top"><span class="tile-num">06</span></div>
+            <h3>Закрытый чат предпринимателей</h3>
+            <p>Пространство для членов отделения: быстрый вопрос коллегам, обмен опытом, поиск контакта, обсуждение идеи или предложение сотрудничества.</p>
+          </div>
+          <a class="btn btn-red" href="#join"><span>Получить доступ</span></a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- федерация -->
+  <section class="section section--deep">
+    <div class="grain-in" aria-hidden="true"></div>
+    <span class="vlabel" aria-hidden="true">Федерация</span>
+    <div class="container federal-grid">
+      <div class="federal-left reveal">
+        <p class="kicker kicker--on-dark">Федеральная «ОПОРА РОССИИ»</p>
+        <h2 data-mask><span class="mask"><span>Ваши связи не</span></span><span class="mask"><span>ограничиваются</span></span><span class="mask"><span>областью</span></span></h2>
+        <p>Вступая в региональное отделение, вы становитесь частью крупнейшего предпринимательского сообщества страны. В любом регионе — свои люди. Выберите задачу — покажем, как она решается через сеть.</p>
+        <div class="chips" role="group" aria-label="Задачи федеральной сети">
+          <button class="chip active" type="button" data-key="partner">Найти партнёра</button>
+          <button class="chip" type="button" data-key="expert">Получить экспертизу</button>
+          <button class="chip" type="button" data-key="visit">Организовать встречу</button>
+          <button class="chip" type="button" data-key="federal">Федеральные проекты</button>
+        </div>
+      </div>
+      <div class="federal-right reveal" data-reveal-delay="120">
+        <div class="federal-result" aria-live="polite">
+          <h3 id="federalTitle">Найти партнёра в другом регионе</h3>
+          <p id="federalText">Вы можете знакомиться с предпринимателями из других городов, обмениваться опытом, находить поставщиков, клиентов и совместные проекты не через холодный поиск, а через доверенную деловую сеть.</p>
+        </div>
+        <div class="federal-metrics">
+          <div><strong>80+</strong><span>регионов сети</span></div>
+          <div><strong>1 шаг</strong><span>до нужного контакта</span></div>
+          <div><strong>0</strong><span>посредников между бизнесами</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- события -->
+  <section id="events" class="section">
+    <span class="wm" aria-hidden="true">03</span>
+    <span class="vlabel" aria-hidden="true">Календарь</span>
+    <div class="container">
+      <div class="section-head reveal">
+        <div><h2 data-mask><span class="mask"><span>Где сообщество</span></span><span class="mask"><span>встречается офлайн</span></span></h2></div>
+        <div class="controls">
+          <button class="icon-btn" id="eventPrev" type="button" aria-label="Предыдущие мероприятия">←</button>
+          <button class="icon-btn" id="eventNext" type="button" aria-label="Следующие мероприятия">→</button>
+        </div>
+      </div>
+      <div class="event-track" id="eventTrack" tabindex="0" aria-label="Ближайшие мероприятия">
+        <article class="event"><time datetime="2026-11-12">12 ноября</time><h3>Завтрак с Уполномоченным по защите прав предпринимателей</h3><p>Формат закрытого разбора: проверки, давление, типовые ошибки, куда обращаться и как готовить позицию.</p><a class="event-link" href="#join">Записаться <span>→</span></a></article>
+        <article class="event"><time datetime="2026-11-19">19 ноября</time><h3>Комитет торговли: маркетплейсы и локальные производители</h3><p>Практическая встреча с предпринимателями, которые уже выходят на цифровые полки, и экспертами по логистике, упаковке, продвижению.</p><a class="event-link" href="#join">Участвовать <span>→</span></a></article>
+        <article class="event"><time datetime="2026-11-27">27 ноября</time><h3>Фестиваль «Псковские барсы» + Форум «ФОКУС27»</h3><p>Деловая программа, партнёрские сессии, выставка местных производителей и обсуждение повестки развития Псковской области.</p><a class="event-link" href="#events">Фотоотчёт и итоги <span>→</span></a></article>
+        <article class="event"><time datetime="2026-12-05">5 декабря</time><h3>Юридическая практика: договоры, субсидии, проверки</h3><p>Разбор реальных кейсов членов отделения. Формат «вопрос — решение»: без общих лекций, по рабочим ситуациям бизнеса.</p><a class="event-link" href="#join">Задать вопрос <span>→</span></a></article>
+      </div>
+    </div>
+  </section>
+
+  <!-- структура -->
+  <section id="structure" class="section section--tint">
+    <span class="wm" aria-hidden="true">04</span>
+    <span class="vlabel" aria-hidden="true">Структура</span>
+    <div class="container">
+      <div class="section-head reveal">
+        <div><h2 data-mask><span class="mask"><span>Как устроена</span></span><span class="mask"><span>работа</span></span></h2></div>
+        <p class="section-note">Не оргштатная таблица, а точки входа: куда обратиться, с кем работать, кто представляет бизнес в институтах региона.</p>
+      </div>
+      <div class="tabs reveal" role="tablist" aria-label="Разделы структуры">
+        <button class="tab active" type="button" role="tab" aria-selected="true" data-tab="panel-bureau">Бюро защиты</button>
+        <button class="tab" type="button" role="tab" aria-selected="false" data-tab="panel-committees">Комитеты</button>
+        <button class="tab" type="button" role="tab" aria-selected="false" data-tab="panel-authority">Голос в власти</button>
+        <span class="tab-ind" id="tabInd" aria-hidden="true"></span>
+      </div>
+      <div class="panel active" id="panel-bureau" role="tabpanel">
+        <div class="data-list">
+          <div class="data-row"><strong>Что делаем</strong><span>Помогаем предпринимателям, если бизнес столкнулся с давлением, необоснованной проверкой или невыгодным решением властей.</span></div>
+          <div class="data-row"><strong>Формат</strong><span>Первичная консультация для членов отделения. Дальше — маршрутизация к экспертам, партнёрам и профильным институтам.</span></div>
+          <div class="data-row"><strong>Стоимость</strong><span>Бесплатно для членов Псковского регионального отделения «ОПОРЫ РОССИИ».</span></div>
+          <div class="data-row"><strong>Когда обращаться</strong><span>Не после того, как проблема стала критичной, а на этапе первого сигнала: требование, проверка, спорный акт, блокировка счёта, давление контрагента.</span></div>
+        </div>
+      </div>
+      <div class="panel" id="panel-committees" role="tabpanel">
+        <div class="data-list">
+          <div class="data-row"><strong>Торговля и ритейл</strong><span>Локальные производители, маркетплейсы, поставки, ценообразование, взаимодействие с торговыми сетями.</span></div>
+          <div class="data-row"><strong>Промышленность</strong><span>Импортозамещение, кооперация, господдержка, кадры, выход на новые рынки.</span></div>
+          <div class="data-row"><strong>Строительство и ЖКХ</strong><span>Подряды, нормативы, взаимодействие с заказчиками, технические присоединения, отраслевые риски.</span></div>
+          <div class="data-row"><strong>АПК и туризм</strong><span>Сельский бизнес, переработка, гостеприимство, локальные маршруты, кооперация с музеями и сообществами.</span></div>
+          <div class="data-row"><strong>IT и цифровизация</strong><span>Цифровые сервисы для МСП, автоматизация, данные, кибербезопасность, образование и кадры.</span></div>
+        </div>
+      </div>
+      <div class="panel" id="panel-authority" role="tabpanel">
+        <div class="data-list">
+          <div class="data-row"><strong>Консультационно-экспертный совет при Уполномоченном по защите прав предпринимателей в Псковской области</strong><span>Лесников Валерий Семёнович</span></div>
+          <div class="data-row"><strong>Общественный совет при УФНС России по Псковской области</strong><span>Пантелеева Елизавета Олеговна</span></div>
+          <div class="data-row"><strong>Общественный совет по защите прав предпринимателей Псковской области (при взаимодействии с прокуратурой)</strong><span>Пакреев Сергей Владимирович, Лесников Валерий Семёнович</span></div>
+          <div class="data-row"><strong>Общественный совет при УФАС по Псковской области</strong><span>Пантелеева Елизавета Олеговна</span></div>
+          <div class="data-row"><strong>Общественная палата Псковской области</strong><span>Пакреев Сергей Владимирович</span></div>
+          <div class="data-row"><strong>Общественный совет при Министерстве по труду и занятости Псковской области</strong><span>Бурлин Юрий Вячеславович</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- лица -->
+  <section class="section">
+    <span class="wm" aria-hidden="true">05</span>
+    <span class="vlabel" aria-hidden="true">Лица</span>
+    <div class="container">
+      <div class="section-head reveal">
+        <div><h2 data-mask><span class="mask"><span>Что меняется</span></span><span class="mask"><span>после вступления</span></span></h2></div>
+        <p class="section-note">Не отзывы ради отзывов, а короткие истории: задача → действие → результат. Тексты — шаблоны, заменить реальными голосами.</p>
+      </div>
+      <div class="face-track reveal">
+        <article class="face"><div class="avatar" aria-hidden="true">ИП</div><blockquote><p>«Стал быстрее решать вопросы с проверками. Важно, что есть к кому обратиться до того, как ситуация станет кризисной».</p><cite>Индивидуальный предприниматель, Псков</cite></blockquote></article>
+        <article class="face"><div class="avatar" aria-hidden="true">АО</div><blockquote><p>«Через комитет нашли подрядчика и партнёра по поставкам в другой регион. Это не ярмарка контактов, а рабочая история».</p><cite>Производственная компания, Псковская область</cite></blockquote></article>
+        <article class="face"><div class="avatar" aria-hidden="true">ООО</div><blockquote><p>«Получили обратную связь от власти до того, как нормативное изменение ударило по бизнес-модели. Это стоит денег и нервов».</p><cite>Сервисный бизнес, Великие Луки</cite></blockquote></article>
+      </div>
+    </div>
+  </section>
+
+  <!-- партнёры -->
+  <section id="partners" class="section section--tint">
+    <span class="wm" aria-hidden="true">06</span>
+    <span class="vlabel" aria-hidden="true">Партнёры</span>
+    <div class="container">
+      <div class="section-head reveal">
+        <div><h2 data-mask><span class="mask"><span>С кем работаем ради</span></span><span class="mask"><span>предпринимателей региона</span></span></h2></div>
+        <p class="section-note">Деловые объединения, государственные структуры, институты развития, образовательные и финансовые партнёры.</p>
+      </div>
+      <div class="partner-wall reveal">
+        <div class="partner">Центр «Мой бизнес» Псковская область</div>
+        <div class="partner">Комитет экономического развития Псковской области</div>
+        <div class="partner">Государственная инспекция труда в Псковской области</div>
+        <div class="partner">Уполномоченный по защите прав предпринимателей Псковской области А.А. Мурылёв</div>
+        <div class="partner">ГАУ ПО «Агентство инвестиционного развития Псковской области»</div>
+        <div class="partner">Отделение Главного управления Банка России по Псковской области</div>
+        <div class="partner">Союз «Торгово-промышленная палата Псковской области»</div>
+        <div class="partner">Псковское региональное отделение «Деловой России»</div>
+        <div class="partner">Музей предпринимателей, меценатов и благотворителей</div>
+        <div class="partner">Псковский бизнес-инкубатор</div>
+        <div class="partner">Союз промышленников и предпринимателей Псковской области</div>
+        <div class="partner">Псковское отделение «Российского экологического общества»</div>
+        <div class="partner">Общественный штаб поддержки Псковского регионального отделения партии «Единая Россия»</div>
+        <div class="partner">Псковское отделение ВТБ</div>
+        <div class="partner">АНО ДПО «Центр образования и воспитания детей и молодёжи» (Кванториум)</div>
+        <div class="partner">Общественная палата Псковской области</div>
+        <div class="partner">ГБУК «Псковская областная универсальная научная библиотека им. В.Я. Курбатова»</div>
+        <div class="partner">РОО «Ассоциация женщин-предпринимателей Республики Башкортостан»</div>
+        <div class="partner">ГКУ Псковской области «Областной центр занятости»</div>
+        <div class="partner">АНО «Общественный капитал»</div>
+      </div>
+      <div class="partner-cta reveal">
+        <div><h3>Есть идея для сотрудничества?</h3><p>Открыты к совместным проектам, мероприятиям и инициативам, которые помогают развивать предпринимательство в регионе.</p></div>
+        <a class="btn btn-red" href="#join"><span>Предложить проект</span></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- лояльность -->
+  <section class="section">
+    <span class="wm" aria-hidden="true">07</span>
+    <span class="vlabel" aria-hidden="true">Лояльность</span>
+    <div class="container">
+      <div class="section-head reveal">
+        <div><h2 data-mask><span class="mask"><span>Практичные условия</span></span><span class="mask"><span>для членов</span></span></h2></div>
+        <p class="section-note">Партнёрские предложения — не декоративные скидки, а реальное снижение затрат. Условия — плейсхолдеры, заменить согласованными.</p>
+      </div>
+      <div class="offers reveal">
+        <article class="offer"><h3>Первичная правовая оценка ситуации</h3><span class="offer-meta">Юристам · [партнёр]</span><p>Экспресс‑разбор договора, претензии или требования контролирующего органа. [условие получения]</p><a href="#join">Уточнить условие</a></article>
+        <article class="offer"><h3>Настройка учёта и ЭДО</h3><span class="offer-meta">Бухгалтерии · [партнёр]</span><p>Специальные условия на подключение сервисов, сопровождение и обучение сотрудников. [условие получения]</p><a href="#join">Получить доступ</a></article>
+        <article class="offer"><h3>Программы повышения квалификации</h3><span class="offer-meta">Образованию · [партнёр]</span><p>Скидки и приоритетный доступ к мастер‑классам, форумам, отраслевым сессиям. [условие получения]</p><a href="#events">Смотреть события</a></article>
+      </div>
+    </div>
+  </section>
+
+  <!-- faq -->
+  <section id="faq" class="section section--tint">
+    <span class="wm" aria-hidden="true">08</span>
+    <span class="vlabel" aria-hidden="true">Вопросы</span>
+    <div class="container">
+      <div class="section-head reveal">
+        <div><h2 data-mask><span class="mask"><span>Коротко</span></span><span class="mask"><span>и по делу</span></span></h2></div>
+        <p class="section-note">Если ответа нет — напишите. Отделение помогает разобраться до подачи официального заявления.</p>
+      </div>
+      <div class="faq-list reveal">
+        <details class="faq-item"><summary>Сколько стоит членство?<span class="faq-icon" aria-hidden="true">+</span></summary><div class="faq-body"><p>Вступительный взнос — 10 000 ₽ единоразово, членский взнос — 10 000 ₽ в год.</p></div></details>
+        <details class="faq-item"><summary>Кто может вступить?<span class="faq-icon" aria-hidden="true">+</span></summary><div class="faq-body"><p>Членами «ОПОРЫ РОССИИ» могут стать предприниматели старше 18 лет, индивидуальные предприниматели, юридические лица и общественные объединения, которые разделяют цели организации и готовы участвовать в её деятельности.</p><p class="src">Основание: пункты 3.1–3.2 Устава. Для юридических лиц и объединений предусмотрены дополнительные условия.</p></div></details>
+        <details class="faq-item"><summary>Сколько времени занимает вступление?<span class="faq-icon" aria-hidden="true">+</span></summary><div class="faq-body"><p>Для вступления необходимо подать заявление. Решение о приёме принимает Совет регионального отделения. После положительного решения и выполнения установленных условий вы становитесь членом организации.</p><p class="src">Основание: пункты 3.2.2–3.2.5 Устава.</p></div></details>
+        <details class="faq-item"><summary>Можно ли сначала прийти на мероприятие?<span class="faq-icon" aria-hidden="true">+</span></summary><div class="faq-body"><p>Да. Вы можете познакомиться с деятельностью Псковского регионального отделения «ОПОРЫ РОССИИ» и уточнить возможность участия в открытых мероприятиях до вступления.</p></div></details>
+        <details class="faq-item"><summary>Я самозанятый. Могу стать членом сообщества?<span class="faq-icon" aria-hidden="true">+</span></summary><div class="faq-body"><p>Да, вы можете подать заявление на вступление, если соответствуете требованиям Устава и разделяете цели организации.</p></div></details>
+      </div>
+    </div>
+  </section>
+
+  <!-- вступление -->
+  <section id="join" class="section">
+    <span class="vlabel" aria-hidden="true">Вступление</span>
+    <div class="container join-grid">
+      <div class="reveal">
+        <p class="kicker">Членство в «ОПОРЕ РОССИИ»</p>
+        <h2 data-mask><span class="mask"><span>Как</span></span><span class="mask"><span>вступить</span></span></h2>
+        <p class="lead">Чтобы вступить в «ОПОРУ РОССИИ», необходимо подать заявление через официальный сайт федеральной организации. Эта форма предназначена для вопросов, консультации и маршрутизации в Псковское региональное отделение.</p>
+        <ul class="checklist">
+          <li><strong>1. Оставьте вопрос.</strong> Мы поймём вашу задачу и подскажем, куда двигаться.</li>
+          <li><strong>2. Подайте заявление.</strong> Через официальный сайт федеральной организации.</li>
+          <li><strong>3. Получите решение Совета.</strong> После принятия — доступ к сообществу, чатам, мероприятиям и партнёрским условиям.</li>
+        </ul>
+      </div>
+      <form class="join-form reveal" id="joinForm" data-reveal-delay="120" novalidate>
+        <div class="form-grid">
+          <div class="field"><label for="name">ФИО *</label><input id="name" name="name" type="text" required autocomplete="name" placeholder="Иван Петров"></div>
+          <div class="field"><label for="phone">Телефон *</label><input id="phone" name="phone" type="tel" required autocomplete="tel" placeholder="+7 ___ ___-__-__"></div>
+          <div class="field"><label for="email">Email</label><input id="email" name="email" type="email" autocomplete="email" placeholder="name@company.ru"></div>
+          <div class="field"><label for="status">Тип деятельности</label><select id="status" name="status"><option value="">Выберите вариант</option><option>ИП</option><option>Юридическое лицо</option><option>Самозанятый</option><option>Общественное объединение</option><option>Другое</option></select></div>
+          <div class="field field-full"><label for="company">Компания / проект</label><input id="company" name="company" type="text" placeholder="Например: производство, услуги, торговля"></div>
+          <div class="field field-full"><label for="task">Задача обращения</label><select id="task" name="task"><option value="">Выберите вариант</option><option>Вступление в отделение</option><option>Консультация Бюро защиты</option><option>Участие в мероприятии</option><option>Партнёрство и сотрудничество</option><option>Предложить проект</option><option>Другое</option></select></div>
+          <div class="field field-full"><label for="message">Сообщение</label><textarea id="message" name="message" placeholder="Кратко опишите ситуацию или вопрос"></textarea></div>
+          <label class="consent"><input type="checkbox" name="consent" required><span>Согласен на обработку персональных данных в соответствии с политикой конфиденциальности.</span></label>
+          <p class="form-note"><strong>Обратите внимание:</strong> форма предназначена для вопросов в Псковское региональное отделение и не заменяет заявление на вступление.</p>
+          <div class="field-full"><button class="btn" type="submit"><span>Отправить вопрос</span></button></div>
+        </div>
+        <div class="success" id="formSuccess" role="status">Спасибо! Вопрос принят. Менеджер отделения свяжется с вами в рабочее время.</div>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer id="contacts" class="footer">
+  <div class="grain-in" aria-hidden="true"></div>
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <a class="logo" href="#top">ОПОРА<b>·</b>Псков</a>
+        <p class="smallprint" style="margin-top:18px">Псковское региональное отделение «ОПОРЫ РОССИИ». Место силы для предпринимателей Псковской области: сообщество, экспертиза, защита и влияние.</p>
+      </div>
+      <div><h4>Разделы</h4><div class="footer-links"><a href="#benefits">Польза</a><a href="#events">Мероприятия</a><a href="#structure">Структура</a><a href="#partners">Партнёры</a><a href="#faq">Вопросы</a></div></div>
+      <div><h4>Контакты</h4><div class="footer-links"><a href="tel:+70000000000">+7 000 000-00-00</a><a href="mailto:pskov@opora.example">pskov@opora.example</a><span>Псков, ул. ______, д. __</span></div></div>
+      <div><h4>Документы</h4><div class="footer-links"><a href="#">Устав</a><a href="#">Политика конфиденциальности</a><a href="#">Реквизиты</a><a href="#">СМИ и упоминания</a></div></div>
+    </div>
+    <div class="smallprint">Концепт‑макет в фирменном стиле «ОПОРЫ РОССИИ» (модель B: scrollytelling‑витрина по трём опорам + robust‑fallback и мозаика‑перечень польз). Фотографии, цифры, цитаты председателя и «лиц ОПОРЫ», условия лояльности, ссылки и юридические тексты необходимо заменить на согласованные официальные данные.</div>
+  </div>
+</footer>
+
+<nav class="mobile-bar" aria-label="Мобильная навигация">
+  <a href="#benefits">Польза</a>
+  <a href="#events">События</a>
+  <a href="#structure">Структура</a>
+  <a href="#partners">Партнёры</a>
+  <a class="mb-cta" href="#join">Вступить</a>
+</nav>
+
+<script>
+document.addEventListener("DOMContentLoaded",()=>{
+  const root=document.documentElement;
+  const RMq=window.matchMedia("(prefers-reduced-motion: reduce)");
+  const WIDEq=window.matchMedia("(min-width: 1081px)");
+  const hasIO=("IntersectionObserver" in window);
+  const RM=()=>RMq.matches;
+  const WIDE=()=>WIDEq.matches;
+
+  /* === ГЕЙТ progressive enhancement: js-класс только когда трюк безопасен === */
+  const canEnhance=()=>WIDE()&&!RM()&&hasIO;
+  const syncGate=()=>{ if(canEnhance()) root.classList.add("js"); else root.classList.remove("js"); };
+  syncGate();
+  WIDEq.addEventListener?.("change",syncGate);
+  RMq.addEventListener?.("change",syncGate);
+
+  /* reveal + line-mask (только под js; без js контент виден из CSS) */
+  const revEls=document.querySelectorAll(".reveal,[data-mask]");
+  if(root.classList.contains("js")){
+    const ro=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){const d=e.target.dataset.revealDelay||0;e.target.style.transitionDelay=d+"ms";e.target.classList.add("is-visible","is-in");ro.unobserve(e.target);}});},{threshold:.15,rootMargin:"0px 0px -8% 0px"});
+    revEls.forEach(el=>ro.observe(el));
+  }else{revEls.forEach(el=>el.classList.add("is-visible","is-in"));}
+
+  /* счётчики */
+  const counters=document.querySelectorAll("[data-count]");
+  const runCount=(el)=>{const t=Number(el.dataset.count||0),sfx=el.dataset.suffix||"",dur=RM()?0:1500,st=performance.now(),fmt=v=>Math.round(v).toLocaleString("ru-RU");
+    const tick=(n)=>{const p=Math.min((n-st)/dur,1),e=1-Math.pow(1-p,3);el.textContent=fmt(t*e)+sfx;if(p<1)requestAnimationFrame(tick);};requestAnimationFrame(tick);};
+  if(hasIO){const co=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){runCount(e.target);co.unobserve(e.target);}});},{threshold:.5});counters.forEach(c=>co.observe(c));}else{counters.forEach(runCount);}
+
+  /* прогресс чтения */
+  const prog=document.getElementById("progress");
+  const onScroll=()=>{const h=document.documentElement,max=h.scrollHeight-h.clientHeight;prog.style.width=(max>0?(h.scrollTop/max)*100:0)+"%";};
+  onScroll();window.addEventListener("scroll",onScroll,{passive:true});
+
+  /* === SCROLLYTELLING: рост сети по шагам (только под js) === */
+  const ORDER={c:0,comm:1,exp:2,pow:3,you:4};
+  const graph=document.getElementById("graph");
+  const scrolly=document.getElementById("scrolly");
+  const steps=[...document.querySelectorAll(".step[data-step]")];
+  let maxSeen=-1, so=null;
+  const applyState=(i)=>{
+    if(!graph)return;
+    graph.querySelectorAll(".g-node").forEach(n=>{const o=ORDER[n.dataset.id];n.classList.toggle("on",o<=i);n.classList.toggle("hot",o===i&&i>0);});
+    graph.querySelectorAll(".g-edge").forEach(p=>{const a=ORDER[p.dataset.f],b=ORDER[p.dataset.t];const on=a<=i&&b<=i;p.classList.toggle("on",on);p.classList.toggle("hot",on&&(a===i||b===i)&&i>0);});
+    graph.querySelectorAll(".g-sub,.g-cap").forEach(t=>{const id=t.dataset.id;if(id){t.classList.toggle("on",ORDER[id]<=i);t.classList.toggle("hot",ORDER[id]===i&&i>0);}else{t.classList.add("on");}});
+    if(scrolly){ if(i>=4) scrolly.classList.add("full"); else scrolly.classList.remove("full"); }
+  };
+  const startScrolly=()=>{
+    if(!graph||!steps.length||so)return;
+    maxSeen=-1;
+    so=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){const i=Number(e.target.dataset.step||0);if(i>maxSeen){maxSeen=i;applyState(maxSeen);}}});},{rootMargin:"-45% 0px -45% 0px",threshold:0});
+    steps.forEach(s=>so.observe(s));
+    applyState(0);
+  };
+  const stopScrolly=()=>{ if(so){so.disconnect();so=null;} if(graph){graph.querySelectorAll(".g-node,.g-edge,.g-sub,.g-cap").forEach(n=>n.classList.remove("on","hot"));} if(scrolly)scrolly.classList.remove("full"); };
+  const syncScrolly=()=>{ if(root.classList.contains("js")) startScrolly(); else stopScrolly(); };
+  syncScrolly();
+  WIDEq.addEventListener?.("change",syncScrolly);
+  RMq.addEventListener?.("change",syncScrolly);
+
+  /* федеральные чипы */
+  const fed={
+    partner:{title:"Найти партнёра в другом регионе",text:"Вы можете знакомиться с предпринимателями из других городов, обмениваться опытом, находить поставщиков, клиентов и совместные проекты не через холодный поиск, а через доверенную деловую сеть."},
+    expert:{title:"Получить экспертизу не из своего города",text:"Через федеральную сеть можно быстро найти практика, который уже решал похожую задачу: выход на маркетплейсы, экспорт, производство, юридическая защита, привлечение инвестиций или кадровый вопрос."},
+    visit:{title:"Организовать деловой визит или встречу",text:"Приезжать друг к другу на предприятия, проводить деловые завтраки, отраслевые встречи и переговоры в формате, где уже есть предварительное доверие и понятный контекст."},
+    federal:{title:"Выйти на федеральные проекты и инициативы",text:"Региональное отделение — точка входа в общую повестку «ОПОРЫ РОССИИ»: рабочие группы, форумы, экспертные советы, защищённые инициативы и проекты по развитию предпринимательства."}
+  };
+  const chips=document.querySelectorAll(".chip"),fT=document.getElementById("federalTitle"),fX=document.getElementById("federalText");
+  chips.forEach(c=>c.addEventListener("click",()=>{chips.forEach(i=>i.classList.remove("active"));c.classList.add("active");const k=c.dataset.key;if(fed[k]&&fT&&fX){fT.textContent=fed[k].title;fX.textContent=fed[k].text;}}));
+
+  /* лента событий */
+  const track=document.getElementById("eventTrack"),prev=document.getElementById("eventPrev"),next=document.getElementById("eventNext");
+  const scrollEv=(dir)=>{if(!track)return;const a=track.clientWidth*.8;track.scrollBy({left:dir==="prev"?-a:a,behavior:RM()?"auto":"smooth"});};
+  prev&&prev.addEventListener("click",()=>scrollEv("prev"));
+  next&&next.addEventListener("click",()=>scrollEv("next"));
+
+  /* табы + скользящий индикатор */
+  const tabs=document.querySelectorAll(".tab"),panels=document.querySelectorAll(".panel"),ind=document.getElementById("tabInd");
+  const placeInd=(tab)=>{if(!ind||!tab)return;ind.style.left=tab.offsetLeft+"px";ind.style.width=tab.offsetWidth+"px";};
+  const activateTab=(tab)=>{tabs.forEach(i=>{i.classList.remove("active");i.setAttribute("aria-selected","false");});panels.forEach(p=>p.classList.remove("active"));tab.classList.add("active");tab.setAttribute("aria-selected","true");document.getElementById(tab.dataset.tab)?.classList.add("active");placeInd(tab);};
+  tabs.forEach(tab=>tab.addEventListener("click",()=>activateTab(tab)));
+  const initTab=document.querySelector(".tab.active");if(initTab)requestAnimationFrame(()=>placeInd(initTab));
+  window.addEventListener("resize",()=>{placeInd(document.querySelector(".tab.active"));});
+
+  /* форма */
+  const form=document.getElementById("joinForm"),ok=document.getElementById("formSuccess");
+  form&&form.addEventListener("submit",(e)=>{e.preventDefault();if(!form.checkValidity()){form.reportValidity();return;}ok.classList.add("show");form.reset();setTimeout(()=>ok.classList.remove("show"),7000);});
+});
+</script>
+</body>
+</html>
