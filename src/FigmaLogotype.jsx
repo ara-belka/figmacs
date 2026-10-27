@@ -1,3 +1,5 @@
+import React from "react";
+
 const layers = [
   ["2220e.svg", "0 81.15% 19.92% 0"],
   ["05cdb.svg", "1.65% 81.3% 23.53% 1.22%"],
