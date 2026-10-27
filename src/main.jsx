@@ -77,27 +77,34 @@ function App() {
       <main id="top">
         <section className="hero">
           <div className="hero-grid" aria-hidden="true" />
+          <div className="hero-beam" aria-hidden="true" />
+          <div className="hero-signal" aria-hidden="true">
+            <span />
+            <span />
+            <span />
+            <i />
+          </div>
           <div className="hero-copy">
             <div className="hero-title" role="heading" aria-level="1">
-              Место силы<br />для <em>предприни&shy;мателей</em>
+              <span>Сильный бизнес.</span>
+              <span><em>Сильный регион.</em></span>
             </div>
-            <p className="hero-lead">Вместе развиваемся и отстаиваем интересы бизнеса. Сообщество, экспертиза и влияние — вокруг вашего дела.</p>
-            <div className="hero-actions">
-              <a className="button button--white" href="#join">Стать частью сообщества <Arrow /></a>
-              <a className="text-link text-link--light" href="#benefits">Узнать больше ↓</a>
+            <div className="hero-bottom">
+              <p className="hero-lead">Объединяем предпринимателей Псковской области, чтобы вместе расти, защищать интересы и влиять на будущее региона.</p>
+              <div className="hero-actions">
+                <a className="button button--white" href="#join">Стать частью сообщества <Arrow /></a>
+                <a className="text-link text-link--light" href="#benefits">Как это работает ↓</a>
+              </div>
             </div>
           </div>
-          <div className="orbit" aria-label="Три опоры сообщества">
-            <div className="orbit-ring orbit-ring--one" />
-            <div className="orbit-ring orbit-ring--two" />
-            <div className="orbit-core"><span>ВАШ</span><b>БИЗНЕС</b></div>
-            <div className="orbit-node orbit-node--one"><small>01</small><b>Сообщество</b></div>
-            <div className="orbit-node orbit-node--two"><small>02</small><b>Экспертиза</b></div>
-            <div className="orbit-node orbit-node--three"><small>03</small><b>Влияние</b></div>
+          <div className="hero-pillars" aria-label="Основные направления">
+            <span>Сообщество</span>
+            <span>Экспертиза</span>
+            <span>Влияние</span>
           </div>
           <div className="hero-foot">
-            <span>57°49′ с. ш. · 28°20′ в. д.</span>
-            <span className="scroll-note">Листайте, чтобы увидеть больше</span>
+            <span>Псковское региональное отделение</span>
+            <span className="scroll-note">ОПОРА РОССИИ</span>
           </div>
         </section>
 
