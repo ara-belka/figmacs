@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { createRoot } from "react-dom/client";
 import oporaLogo from "./assets/opora-logo.svg";
+import chairmanPhoto from "./assets/sergey-pakreev.webp";
 import "./styles.css";
 
 const benefits = [
@@ -116,13 +117,20 @@ function App() {
         </section>
 
         <section className="manifesto section">
-          <blockquote>
-            «Мы не продаём членство. Мы собираем вокруг стола людей, которым важно, чтобы в Псковской области бизнесу было <em>проще работать, расти и быть услышанным</em>».
-          </blockquote>
-          <div className="signature">
-            <div className="avatar">ОП</div>
-            <div><b>Председатель регионального отделения</b><span>«ОПОРА РОССИИ» · Псков</span></div>
-            <a className="round-link" href="#join" aria-label="Обсудить участие"><Arrow /></a>
+          <figure className="chairman-photo">
+            <img src={chairmanPhoto} alt="Сергей Владимирович Пакреев, председатель Псковского регионального отделения «ОПОРЫ РОССИИ»" />
+          </figure>
+          <div className="manifesto-copy">
+            <blockquote>
+              «Мы не продаём членство. Мы собираем вокруг стола людей, которым важно, чтобы в Псковской области бизнесу было <em>проще работать, расти и быть услышанным</em>».
+            </blockquote>
+            <div className="signature">
+              <div>
+                <b>Председатель Псковского регионального отделения</b>
+                <strong>Пакреев Сергей Владимирович</strong>
+              </div>
+              <a className="round-link" href="#join" aria-label="Обсудить участие"><Arrow /></a>
+            </div>
           </div>
         </section>
 
