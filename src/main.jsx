@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { createRoot } from "react-dom/client";
 import oporaLogo from "./assets/opora-logo.svg";
+import oporaWordmarkWhite from "./assets/opora-wordmark-white.svg";
 import chairmanPhoto from "./assets/sergey-pakreev.webp";
 import "./styles.css";
 
@@ -67,10 +68,10 @@ function App() {
           <span className="logo-copy"><strong>ОПОРА РОССИИ</strong><b>Псковское отделение</b></span>
         </a>
         <nav className="nav" aria-label="Основная навигация">
-          <a href="#benefits">Польза</a>
           <a href="#events">События</a>
-          <a href="#structure">Структура</a>
-          <a href="#faq">Вопросы</a>
+          <a href="#benefits">Предпринимателям</a>
+          <a href="#structure">Об организации</a>
+          <a href="#contacts">Контакты</a>
         </nav>
         <a className="button button--small" href="#join">Вступить <Arrow /></a>
       </header>
@@ -225,7 +226,7 @@ function App() {
           </div>
         </section>
 
-        <section className="stories section">
+        <section className="stories section" id="faces">
           <div className="section-head">
             <div>
               <div className="section-title" role="heading" aria-level="2">Что меняется<br /><em>после вступления</em></div>
@@ -294,12 +295,51 @@ function App() {
         </section>
       </main>
 
-      <footer className="footer">
-        <a className="logo logo--footer" href="#top"><img className="logo-mark" src={oporaLogo} alt="" /><span className="logo-copy"><strong>ОПОРА РОССИИ</strong><b>Псковское отделение</b></span></a>
-        <p>Псковское региональное отделение<br />«ОПОРЫ РОССИИ»</p>
-        <div><a href="#benefits">Польза</a><a href="#events">События</a><a href="#structure">Структура</a></div>
-        <div><a href="tel:+70000000000">+7 000 000-00-00</a><a href="mailto:pskov@opora.example">pskov@opora.example</a></div>
-        <span className="copyright">© 2025 · Псков</span>
+      <footer className="footer" id="contacts">
+        <div className="footer-main">
+          <div className="footer-brand">
+            <a href="#top" aria-label="ОПОРА РОССИИ — на главную">
+              <img src={oporaWordmarkWhite} alt="ОПОРА РОССИИ" />
+            </a>
+            <p>Место силы для предпринимателей Псковской области: сообщество, экспертиза, защита и влияние.</p>
+          </div>
+          <nav className="footer-column" aria-label="События">
+            <strong>События</strong>
+            <a href="#events">Новости</a>
+            <a href="#events">Мероприятия</a>
+            <a href="#benefits">Проекты</a>
+          </nav>
+          <nav className="footer-column" aria-label="Предпринимателям">
+            <strong>Предпринимателям</strong>
+            <a href="#structure">Комитеты</a>
+            <a href="#join">Вступить</a>
+            <a href="#structure">Бюро по защите прав</a>
+            <a href="#faq">Вопрос-ответ</a>
+          </nav>
+          <nav className="footer-column" aria-label="Об организации">
+            <strong>Об организации</strong>
+            <a href="#structure">Структура организации</a>
+            <a href="#structure">Представительство в органах власти</a>
+            <a href="#faces">Лица псковской «ОПОРЫ»</a>
+            <a href="#events">Пресса о нас</a>
+            <a href="https://opora.ru/about/" target="_blank" rel="noreferrer">Документы</a>
+          </nav>
+          <div className="footer-column footer-contacts">
+            <strong>Контакты</strong>
+            <a href="mailto:oporarossii.pskov@mail.ru">oporarossii.pskov@mail.ru</a>
+            <a href="tel:+78112700075">+7 (8112) 70-00-75</a>
+            <address>180020, г. Псков,<br />ул. Советская, д. 25,<br />пом. 1001</address>
+            <span>Пн–Пт 9:00–18:00<br />(обед 13:00–14:00)</span>
+          </div>
+        </div>
+        <div className="footer-bottom">
+          <span>© 2025 Псковское региональное отделение «ОПОРЫ РОССИИ»</span>
+          <div>
+            <a href="#">Политика конфиденциальности</a>
+            <a href="#">Согласие на обработку персональных данных</a>
+            <a href="https://opora.ru/" target="_blank" rel="noreferrer">Федеральная организация <Arrow /></a>
+          </div>
+        </div>
       </footer>
     </>
   );
