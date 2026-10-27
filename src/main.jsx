@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { createRoot } from "react-dom/client";
+import oporaLogo from "./assets/opora-logo.svg";
 import "./styles.css";
 
 const benefits = [
@@ -61,8 +62,8 @@ function App() {
       <div className="progress" />
       <header className="header">
         <a className="logo" href="#top" aria-label="ОПОРА Псков — на главную">
-          <span className="logo-mark">ОП</span>
-          <span>ОПОРА<br /><b>ПСКОВ</b></span>
+          <img className="logo-mark" src={oporaLogo} alt="" />
+          <span className="logo-copy"><strong>ОПОРА РОССИИ</strong><b>Псковское отделение</b></span>
         </a>
         <nav className="nav" aria-label="Основная навигация">
           <a href="#benefits">Польза</a>
@@ -275,7 +276,7 @@ function App() {
       </main>
 
       <footer className="footer">
-        <a className="logo logo--footer" href="#top"><span className="logo-mark">ОП</span><span>ОПОРА<br /><b>ПСКОВ</b></span></a>
+        <a className="logo logo--footer" href="#top"><img className="logo-mark" src={oporaLogo} alt="" /><span className="logo-copy"><strong>ОПОРА РОССИИ</strong><b>Псковское отделение</b></span></a>
         <p>Псковское региональное отделение<br />«ОПОРЫ РОССИИ»</p>
         <div><a href="#benefits">Польза</a><a href="#events">События</a><a href="#structure">Структура</a></div>
         <div><a href="tel:+70000000000">+7 000 000-00-00</a><a href="mailto:pskov@opora.example">pskov@opora.example</a></div>
