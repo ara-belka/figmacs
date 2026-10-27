@@ -78,7 +78,6 @@ function App() {
         <section className="hero">
           <div className="hero-grid" aria-hidden="true" />
           <div className="hero-copy">
-            <p className="kicker kicker--light">Псковское региональное отделение</p>
             <div className="hero-title" role="heading" aria-level="1">
               Место силы<br />для <em>предприни&shy;мателей</em>
             </div>
@@ -110,7 +109,6 @@ function App() {
         </section>
 
         <section className="manifesto section">
-          <div className="section-label">01 / ОБРАЩЕНИЕ</div>
           <blockquote>
             «Мы не продаём членство. Мы собираем вокруг стола людей, которым важно, чтобы в Псковской области бизнесу было <em>проще работать, расти и быть услышанным</em>».
           </blockquote>
@@ -124,7 +122,6 @@ function App() {
         <section className="benefits section" id="benefits">
           <div className="section-head">
             <div>
-              <p className="kicker">02 / ПОЛЬЗА</p>
               <div className="section-title" role="heading" aria-level="2">Не список привилегий,<br />а <em>рабочая среда</em></div>
             </div>
             <p>Три опоры превращаются в конкретный результат: контакт, защиту, клиента, решение и доступ к возможностям.</p>
@@ -132,7 +129,6 @@ function App() {
           <div className="benefit-grid">
             {benefits.map(([number, title, text]) => (
               <article className="benefit-card" key={number}>
-                <span className="card-number">{number}</span>
                 <div className="benefit-icon" aria-hidden="true">{number === "01" ? "●—●" : number === "02" ? "◇" : number === "03" ? "↗" : number === "04" ? "✦" : number === "05" ? "◎" : "///"}</div>
                 <div className="card-title" role="heading" aria-level="3">{title}</div>
                 <p>{text}</p>
@@ -144,7 +140,6 @@ function App() {
         <section className="federal">
           <div className="federal-marquee" aria-hidden="true">80+ РЕГИОНОВ · ОДНА СЕТЬ · 80+ РЕГИОНОВ · ОДНА СЕТЬ ·</div>
           <div className="federal-content">
-            <p className="kicker kicker--light">ФЕДЕРАЛЬНАЯ «ОПОРА РОССИИ»</p>
             <div className="federal-title" role="heading" aria-level="2">Ваши связи не ограничиваются областью</div>
             <p>В любом регионе — свои люди. Находите партнёров, поставщиков и экспертов не через холодный поиск, а через доверенную деловую сеть.</p>
             <div className="federal-stats">
@@ -158,7 +153,6 @@ function App() {
         <section className="events section" id="events">
           <div className="section-head">
             <div>
-              <p className="kicker">03 / КАЛЕНДАРЬ</p>
               <div className="section-title" role="heading" aria-level="2">Где сообщество<br /><em>встречается лично</em></div>
             </div>
             <p>Без формальных докладов. Встречаемся, чтобы разбирать задачи и запускать новые связи.</p>
@@ -173,7 +167,6 @@ function App() {
                 <article className="event-card" key={event.date}>
                   <div className="event-date"><b>{event.date}</b><span>{event.month}</span></div>
                   <div>
-                    <span className="event-tag">{event.tag}</span>
                     <div className="event-title" role="heading" aria-level="3">{event.title}</div>
                     <p>{event.text}</p>
                   </div>
@@ -185,17 +178,15 @@ function App() {
         </section>
 
         <section className="structure section" id="structure">
-          <p className="kicker kicker--light">04 / СТРУКТУРА</p>
           <div className="section-title section-title--light" role="heading" aria-level="2">Точки входа,<br />а не оргштатная таблица</div>
           <div className="structure-tabs" role="tablist" aria-label="Направления работы">
-            {Object.entries(structure).map(([key, item], index) => (
+            {Object.entries(structure).map(([key, item]) => (
               <button className={activeStructure === key ? "active" : ""} key={key} onClick={() => setActiveStructure(key)} role="tab" aria-selected={activeStructure === key}>
-                <span>0{index + 1}</span>{item.title}
+                {item.title}
               </button>
             ))}
           </div>
           <div className="structure-panel" role="tabpanel">
-            <span className="panel-index">0{Object.keys(structure).indexOf(activeStructure) + 1}</span>
             <div className="panel-lead">{structure[activeStructure].lead}</div>
             <p>{structure[activeStructure].text}</p>
             <a className="text-link text-link--light" href="#join">Обсудить задачу <Arrow /></a>
@@ -205,20 +196,18 @@ function App() {
         <section className="stories section">
           <div className="section-head">
             <div>
-              <p className="kicker">05 / РЕЗУЛЬТАТ</p>
               <div className="section-title" role="heading" aria-level="2">Что меняется<br /><em>после вступления</em></div>
             </div>
           </div>
           <div className="story-grid">
-            <article><span>ИП / ПСКОВ</span><p>«Стал быстрее решать вопросы с проверками. Важно, что есть к кому обратиться до кризиса».</p><b>— Индивидуальный предприниматель</b></article>
-            <article className="story-dark"><span>АО / ОБЛАСТЬ</span><p>«Через комитет нашли подрядчика и партнёра по поставкам в другой регион».</p><b>— Производственная компания</b></article>
-            <article><span>ООО / ВЕЛИКИЕ ЛУКИ</span><p>«Получили обратную связь до того, как изменение ударило по бизнес-модели».</p><b>— Сервисный бизнес</b></article>
+            <article><p>«Стал быстрее решать вопросы с проверками. Важно, что есть к кому обратиться до кризиса».</p><b>— Индивидуальный предприниматель, Псков</b></article>
+            <article className="story-dark"><p>«Через комитет нашли подрядчика и партнёра по поставкам в другой регион».</p><b>— Производственная компания, Псковская область</b></article>
+            <article><p>«Получили обратную связь до того, как изменение ударило по бизнес-модели».</p><b>— Сервисный бизнес, Великие Луки</b></article>
           </div>
         </section>
 
         <section className="faq section" id="faq">
           <div>
-            <p className="kicker">06 / ВОПРОСЫ</p>
             <div className="section-title" role="heading" aria-level="2">Коротко<br /><em>и по делу</em></div>
             <p className="faq-intro">Если ответа нет — напишите. Поможем разобраться до подачи заявления.</p>
           </div>
@@ -236,10 +225,8 @@ function App() {
 
         <section className="join section" id="join">
           <div className="join-copy">
-            <p className="kicker kicker--light">ВСТУПЛЕНИЕ</p>
             <div className="join-title" role="heading" aria-level="2">Ваш бизнес.<br />Ваш голос.<br /><em>Ваша опора.</em></div>
             <p>Оставьте вопрос — мы поймём вашу задачу и подскажем следующий шаг.</p>
-            <div className="join-steps"><span>01 Вопрос</span><span>02 Заявление</span><span>03 Решение Совета</span></div>
           </div>
           <form className="join-form" onSubmit={submit}>
             {sent ? (
