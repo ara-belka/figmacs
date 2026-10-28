@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { createRoot } from "react-dom/client";
-import oporaWordmarkWhite from "./assets/opora-wordmark-white.svg";
 import oporaHeaderLogo from "./assets/opora-header-logo.png";
+import oporaFooterLogo from "./assets/opora-footer-logo.png";
 import chairmanPhoto from "./assets/sergey-pakreev.webp";
 import "./styles.css";
 
@@ -323,7 +323,7 @@ function App() {
         <div className="footer-main">
           <div className="footer-brand">
             <a href="#top" aria-label="ОПОРА РОССИИ — на главную">
-              <img src={oporaWordmarkWhite} alt="ОПОРА РОССИИ" />
+              <img src={oporaFooterLogo} alt="ОПОРА РОССИИ" />
             </a>
             <p>Место силы для предпринимателей Псковской области: сообщество, экспертиза, защита и влияние.</p>
           </div>
