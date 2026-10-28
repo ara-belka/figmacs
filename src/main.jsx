@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { createRoot } from "react-dom/client";
 import oporaWordmarkWhite from "./assets/opora-wordmark-white.svg";
+import oporaHeaderLogo from "./assets/opora-header-logo.png";
 import chairmanPhoto from "./assets/sergey-pakreev.webp";
-import FigmaLogotype from "./FigmaLogotype";
 import "./styles.css";
 
 const benefits = [
@@ -81,7 +81,7 @@ function App() {
       <div className="progress" />
       <header className="header">
         <a className="logo" href="#top" aria-label="ОПОРА Псков — на главную">
-          <FigmaLogotype />
+          <img className="header-logo" src={oporaHeaderLogo} alt="ОПОРА РОССИИ" />
         </a>
         <nav className={`nav ${menuOpen ? "nav--open" : ""}`} id="header-navigation" aria-label="Основная навигация">
           <a href="#structure" onClick={() => setMenuOpen(false)}>Об организации</a>
