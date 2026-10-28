@@ -41,6 +41,7 @@
 * { box-sizing: border-box; }
 body { margin: 0; min-width: 20rem; background: var(--white); }
 body.menu-open { overflow: hidden; }
+section[id], footer[id] { scroll-margin-top: 5.5rem; }
 a { color: inherit; text-decoration: none; }
 button, input, select, textarea { font: inherit; }
 button { color: inherit; }
@@ -49,7 +50,7 @@ button { color: inherit; }
 .progress { position: fixed; inset: 0 0 auto; height: .22rem; z-index: 100; background: var(--red); transform-origin: left; animation: progress linear; animation-timeline: scroll(); }
 @keyframes progress { from { transform: scaleX(0); } to { transform: scaleX(1); } }
 
-.header { position: absolute; z-index: 10; top: 0; left: 0; width: 100%; min-height: 4.75rem; display: flex; align-items: center; gap: 1.5rem; padding: .4rem max(1.5rem, calc((100vw - 82rem) / 2)); color: #034e89; background: #f6fbff; box-shadow: 0 .35rem 1.5rem rgb(0 31 91 / .08); }
+.header { position: fixed; z-index: 10; top: 0; left: 0; width: 100%; min-height: 4.75rem; display: flex; align-items: center; gap: 1.5rem; padding: .4rem max(1.5rem, calc((100vw - 82rem) / 2)); color: #034e89; background: #f6fbff; box-shadow: 0 .35rem 1.5rem rgb(0 31 91 / .08); }
 .logo { display: block; flex: 0 0 auto; }
 .header-logo { display: block; width: clamp(10.625rem, 15vw, 14rem); height: auto; }
 .nav { display: flex; flex: 1; flex-wrap: nowrap; align-items: center; justify-content: flex-end; gap: 1.25rem; font-family: "Open Sans:SemiBold", var(--font-body); font-size: 1.125rem; font-weight: 600; line-height: 1.625rem; font-variation-settings: "wdth" 100; }
