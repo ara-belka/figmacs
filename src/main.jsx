@@ -300,7 +300,7 @@ function App() {
                 <label>ФИО<input required placeholder="Иван Петров" /></label>
                 <div className="form-row">
                   <label>Телефон<input required type="tel" placeholder="+7 900 000-00-00" /></label>
-                  <label>Email<input type="email" placeholder="name@company.ru" /></label>
+                  <label>Электронная почта<input type="email" placeholder="name@company.ru" /></label>
                 </div>
                 <label>Задача обращения
                   <select defaultValue="">
