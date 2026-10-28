@@ -312,8 +312,17 @@ function App() {
                   </select>
                 </label>
                 <label>Сообщение<textarea rows="3" placeholder="Коротко опишите задачу" /></label>
+                <div className="consent-options">
+                  <label className="consent-option">
+                    <input type="checkbox" required />
+                    <span>Принимаю условия <a href="#">Политики конфиденциальности</a></span>
+                  </label>
+                  <label className="consent-option">
+                    <input type="checkbox" required />
+                    <span>Даю разрешение на <a href="#">обработку персональных данных</a></span>
+                  </label>
+                </div>
                 <button className="button button--submit" type="submit">Отправить вопрос <Arrow /></button>
-                <small>Нажимая кнопку, вы соглашаетесь на обработку персональных данных.</small>
               </>
             )}
           </form>
