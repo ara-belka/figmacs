@@ -3,6 +3,7 @@ import { createRoot } from "react-dom/client";
 import oporaHeaderLogo from "./assets/opora-header-logo.png";
 import oporaFooterLogo from "./assets/opora-footer-logo.png";
 import chairmanPhoto from "./assets/sergey-pakreev.webp";
+import conferencePhoto from "./assets/business-conference.webp";
 import "./styles.css";
 
 const benefits = [
@@ -216,7 +217,7 @@ function App() {
           </div>
           <div className="event-layout">
             <figure className="event-photo">
-              <img src="https://images.unsplash.com/photo-1769798643237-8642a3fbe5bc?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&q=85&w=1400" alt="Участники деловой конференции слушают выступление" />
+              <img src={conferencePhoto} alt="Участники деловой конференции слушают выступление" />
               <figcaption>Живой диалог вместо формальностей</figcaption>
             </figure>
             <div className="event-list">
