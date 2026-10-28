@@ -63,7 +63,7 @@ button { color: inherit; }
 .menu-toggle--open span:first-child { top: 1.32rem; transform: rotate(45deg); }
 .menu-toggle--open span:last-child { top: 1.32rem; transform: rotate(-45deg); }
 .menu-toggle:focus-visible, .nav a:focus-visible { outline: .18rem solid var(--red); outline-offset: .2rem; }
-.menu-backdrop { position: fixed; z-index: 11; inset: 0; border: 0; background: rgb(0 18 47 / .58); backdrop-filter: blur(.2rem); opacity: 0; transition: opacity .25s ease; }
+.menu-backdrop { position: fixed; z-index: 9; inset: 0; border: 0; background: rgb(0 18 47 / .58); backdrop-filter: blur(.2rem); opacity: 0; transition: opacity .25s ease; }
 .menu-backdrop--visible { display: block; opacity: 1; }
 .button { display: inline-flex; min-height: 3.7rem; align-items: center; justify-content: space-between; gap: 2rem; padding: 0 1.4rem; border: 0; color: var(--white); background: var(--red); font-size: .78rem; font-weight: 700; cursor: pointer; transition: transform .2s ease, background .2s ease; clip-path: polygon(0 0, 100% 0, 100% calc(100% - .75rem), calc(100% - .75rem) 100%, 0 100%); }
 .button:hover { transform: translateY(-.16rem); background: #c80026; }
